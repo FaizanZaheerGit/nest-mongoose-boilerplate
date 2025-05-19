@@ -1,0 +1,20 @@
+import { IOtpTokenRepository } from '@auth/interfaces/otptokens.interface';
+import { OtpToken } from '@auth/models/otptokens.model';
+import { BaseRespository } from '@database/repositories/base.repository';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from '@user/models/users.model';
+import { Model } from 'mongoose';
+
+export class OtpTokenRepository extends BaseRespository<OtpToken> implements IOtpTokenRepository {
+  constructor(@InjectModel(OtpToken.name) private readonly otpTokenModel: Model<OtpToken>) {
+    super(otpTokenModel);
+  }
+
+  async createToken(user: User, token: string): Promise<OtpToken> {
+    return await this.create({ user, token });
+  }
+
+  async getByTokenAndUser(user: User, token: string): Promise<OtpToken | null> {
+    return await this.findOne({ user, token });
+  }
+}
