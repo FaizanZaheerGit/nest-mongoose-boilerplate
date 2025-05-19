@@ -99,5 +99,9 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FaizanZaheerGit/nest-mongoose-boilerplate"
   }
 }
