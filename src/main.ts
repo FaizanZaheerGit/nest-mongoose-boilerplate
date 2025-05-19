@@ -16,6 +16,13 @@ async function bootstrap() {
       .setTitle('Nest with Mongoose Boilerplate')
       .setDescription('Nest with Mongoose Boilerplate APIs')
       .setVersion('1.0')
+      .addBearerAuth({
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        in: 'header',
+      })
       .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('/api/docs', app, documentFactory);

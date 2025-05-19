@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsMongoId, IsNotEmpty, IsString, Matches } from 'class-validator';
 
-export class ResetPasswordDto {
+export class VerifyOtpDto {
   @ApiProperty({
     title: 'User ID',
     name: 'userId',
