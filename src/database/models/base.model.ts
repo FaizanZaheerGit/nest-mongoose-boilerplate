@@ -13,4 +13,10 @@ export class BaseModel {
 
   @Prop({ type: String, default: StatusEnums.ACTIVE })
   status: string;
+
+  @Prop({ type: String, default: null })
+  deletedAt?: string;
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted?: boolean;
 }

@@ -1,4 +1,4 @@
-import { IResetTokenRepository } from '@auth/interfaces/resettokens.interface';
+import { IResetTokenRepository } from '@auth/interfaces/resettokens.repository.interface';
 import { ResetToken } from '@auth/models/resettokens.model';
 import { BaseRespository } from '@database/repositories/base.repository';
 import { InjectModel } from '@nestjs/mongoose';

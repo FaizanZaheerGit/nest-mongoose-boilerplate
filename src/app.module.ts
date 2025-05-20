@@ -7,15 +7,17 @@ import { AppConfigModule } from '@config/config.module';
 import { DbProviderModule } from '@database/provider.module';
 import { SendgridModule } from '@src/sendgrid/sendgrid.module';
 import { TwilioModule } from '@src/twilio/twilio.module';
+import { RolesModule } from '@role/roles.module';
 
 @Module({
   imports: [
     AppConfigModule,
-    DbProviderModule,
-    UsersModule,
     AuthModule,
+    DbProviderModule,
+    RolesModule,
     SendgridModule,
     TwilioModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

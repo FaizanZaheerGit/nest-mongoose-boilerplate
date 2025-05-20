@@ -1,4 +1,4 @@
-import { IOtpTokenRepository } from '@auth/interfaces/otptokens.interface';
+import { IOtpTokenRepository } from '@auth/interfaces/otptokens.repository.interface';
 import { OtpToken } from '@auth/models/otptokens.model';
 import { BaseRespository } from '@database/repositories/base.repository';
 import { InjectModel } from '@nestjs/mongoose';

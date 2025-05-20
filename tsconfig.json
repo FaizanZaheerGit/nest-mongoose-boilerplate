@@ -21,9 +21,15 @@
       "@auth/*": ["./src/auth/*"],
       "@config/*": ["./src/config/*"],
       "@database/*": ["./src/database/*"],
+      "@decorators/*": ["./src/utils/decorators/*"],
+      "@enums/*": ["./src/utils/enums/*"],
+      "@filters/*": ["./src/utils/filters/*"],
+      "@interceptors/*": ["./src/utils/interceptors/*"],
+      "@role/*": ["./src/roles/*"],
       "@src/*": ["./src/*"],
       "@user/*": ["./src/users/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@validators/*": ["./src/utils/validators/*"]
     }
   }
 }

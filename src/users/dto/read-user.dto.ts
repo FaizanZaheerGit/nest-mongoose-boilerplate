@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsMongoId, IsOptional, ValidateIf } from 'class-validator';
 import { StatusEnums } from '@utils/enums/status.enums';
 
-export class ReadPaginatedUsersDto {
+export class ReadUsersDto {
   @ApiProperty({
     title: 'Id',
     name: '_id',

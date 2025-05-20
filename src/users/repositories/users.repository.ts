@@ -2,7 +2,7 @@ import { BaseRespository } from '@database/repositories/base.repository';
 import { FilterQuery, Model, Types } from 'mongoose';
 import { User } from '@user/models/users.model';
 import { UserTypeEnums } from '@utils/enums/userType.enums';
-import { IUserRepository } from '@user/interfaces/users.interface';
+import { IUserRepository } from '@src/users/interfaces/users.repository.interface';
 import { InjectModel } from '@nestjs/mongoose';
 
 export class UserRepository extends BaseRespository<User> implements IUserRepository {

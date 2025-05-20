@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from '@src/app.module';
 import { ValidationPipe } from '@utils/validators/validator.pipe';
 import { GlobalExceptionHandler } from '@utils/filters/global-exception.filter';
@@ -10,6 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const appConfigService: AppConfigService = app.get(AppConfigService);
+  const reflector: Reflector = app.get(Reflector);
 
   if (appConfigService.NODE_ENV.toLowerCase() !== 'production') {
     const config = new DocumentBuilder()
@@ -25,16 +26,17 @@ async function bootstrap() {
       })
       .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('/api/docs', app, documentFactory);
+    SwaggerModule.setup('/api/v1/docs', app, documentFactory);
   }
 
   app.enableCors({
     origin: ['*'],
     credentials: true,
   });
+  app.setGlobalPrefix('/api/v1');
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new GlobalExceptionHandler());
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalInterceptors(new ResponseInterceptor(reflector));
   await app.listen(process.env.PORT ?? 3000);
 }
 
