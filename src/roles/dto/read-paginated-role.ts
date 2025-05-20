@@ -1,44 +1,30 @@
+import { StatusEnums } from '@enums/status.enums';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsNumberString, IsOptional, ValidateIf } from 'class-validator';
-import { StatusEnums } from '@utils/enums/status.enums';
+import { IsNotEmpty, IsNumberString, IsOptional } from 'class-validator';
 
-export class ReadPaginatedUsersDto {
+export class ReadPaginatedRolesDto {
   @ApiProperty({
-    title: 'Email',
-    name: 'email',
-    description: 'This is the email of a user',
-    example: 'abcd@yopmail.com',
+    title: 'Title',
+    name: 'title',
+    description: 'This is the title of a role',
+    example: 'First Role',
     required: false,
     type: String,
   })
   @IsOptional()
-  email?: string;
+  title?: string;
 
   @ApiProperty({
-    title: 'Name',
-    name: 'name',
-    description: 'This is the name of a user',
-    example: 'John',
-    required: false,
-    type: String,
-  })
-  @IsOptional()
-  name?: string;
-
-  @ApiProperty({
-    title: 'Status',
-    name: 'status',
-    description: 'This is the status of a user',
+    title: 'Title',
+    name: 'title',
+    description: 'This is the status of a role',
     enum: StatusEnums,
     enumName: 'Statuses',
     example: StatusEnums.ACTIVE,
     required: false,
     type: String,
   })
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  @ValidateIf((obj) => obj.status !== undefined && obj.status !== null && obj.status !== '')
-  @IsEnum(StatusEnums, { message: 'Invalid status' })
   @IsOptional()
   status?: StatusEnums;
 

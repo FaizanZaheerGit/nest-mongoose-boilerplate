@@ -1,26 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsMongoId,
-  IsNotEmpty,
-  IsOptional,
-  IsPhoneNumber,
-  IsString,
-  ValidateIf,
-} from 'class-validator';
+import { IsOptional, IsPhoneNumber, IsString, ValidateIf } from 'class-validator';
 
 export class UpdateUserDto {
-  @ApiProperty({
-    title: 'Id',
-    name: 'id',
-    description: 'This is the id of a user',
-    example: '681a0da20d8f3f56491d322a',
-    type: String,
-  })
-  @IsMongoId({ message: 'id must be a valid Mongo Id' })
-  @IsString({ message: 'id must be a string' })
-  @IsNotEmpty({ message: 'id is required' })
-  id: string;
-
   @ApiProperty({
     title: 'name',
     name: 'name',
