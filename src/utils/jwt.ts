@@ -1,36 +1,20 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 
-const jwtSecret = process.env.JWT_SECRET ?? '';
+const jwtSecret = process.env.JWT_SECRET ?? 'default_jwt_secret';
 
-const key = crypto.scryptSync(jwtSecret, 'salt', 32);
-const algo = 'aes-256-gcm';
+const jwtExpiry: any = process.env.JWT_EXPIRY ?? '1d';
 
 export const generateToken = (payload: { email: string }): string => {
-  const jwtToken: string = jwt.sign(payload, 'Lucky123', { expiresIn: '1d' });
-
-  const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv(algo, key, iv);
-
-  let encrypted = cipher.update(jwtToken, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-
-  const authTag = cipher.getAuthTag();
-
-  const result = `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted}`;
-  return result;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  return jwt.sign(payload, jwtSecret, { expiresIn: jwtExpiry });
 };
 
-export const decryptToken = (token: string): string => {
-  const [ivHex, authTagHex, encrypted] = token.split(':');
-
-  const iv = Buffer.from(ivHex, 'hex');
-  const authTag = Buffer.from(authTagHex, 'hex');
-
-  const decipher = crypto.createDecipheriv(algo, key, iv);
-  decipher.setAuthTag(authTag);
-
-  let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-  decrypted += decipher.final('utf-8');
-  return decrypted;
+export const verifyToken = (token: string): any => {
+  try {
+    return jwt.verify(token, jwtSecret);
+  } catch (error) {
+    console.log(`Error in verifyToken jwt:  ${error}`);
+    throw new HttpException('Invalid or expired token', HttpStatus.UNAUTHORIZED);
+  }
 };

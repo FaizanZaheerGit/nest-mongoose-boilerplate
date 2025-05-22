@@ -72,14 +72,14 @@ export class AppConfigService {
   }
 
   get adminConfig(): {
-    ADMIN_NAME: string | undefined;
-    ADMIN_EMAIL: string | undefined;
-    ADMIN_PASSWORD: string | undefined;
+    name: string | undefined;
+    email: string | undefined;
+    password: string | undefined;
   } {
     return {
-      ADMIN_NAME: this.configService.get('ADMIN_NAME'),
-      ADMIN_EMAIL: this.configService.get('ADMIN_EMAIL'),
-      ADMIN_PASSWORD: this.configService.get('ADMIN_PASSWORD'),
+      name: this.configService.get('ADMIN_NAME'),
+      email: this.configService.get('ADMIN_EMAIL'),
+      password: this.configService.get('ADMIN_PASSWORD'),
     };
   }
 

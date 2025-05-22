@@ -4,7 +4,9 @@ import { User } from '@user/models/users.model';
 import { UserTypeEnums } from '@utils/enums/userType.enums';
 import { IUserRepository } from '@src/users/interfaces/users.repository.interface';
 import { InjectModel } from '@nestjs/mongoose';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UserRepository extends BaseRespository<User> implements IUserRepository {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {
     super(userModel);

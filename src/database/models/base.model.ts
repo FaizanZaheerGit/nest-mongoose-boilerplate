@@ -12,7 +12,7 @@ export class BaseModel {
   _id?: Types.ObjectId; // NOTE: This has been added to avoid typescript errors when accessing _id from models
 
   @Prop({ type: String, default: StatusEnums.ACTIVE })
-  status: string;
+  status: StatusEnums;
 
   @Prop({ type: String, default: null })
   deletedAt?: string;

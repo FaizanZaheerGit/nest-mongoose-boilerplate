@@ -24,7 +24,7 @@ export class ValidationPipe implements PipeTransform {
       throw new BadRequestException({
         statusCode: HttpStatus.BAD_REQUEST,
         data: {},
-        message: `Validation Failed`,
+        message: `${formattedErrors[0]}`,
         error: formattedErrors,
         success: false,
       });

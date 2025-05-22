@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 
 const saltWorkFactor = process.env.SALT_WORK_FACTOR
   ? parseInt(process.env.SALT_WORK_FACTOR, 10)
