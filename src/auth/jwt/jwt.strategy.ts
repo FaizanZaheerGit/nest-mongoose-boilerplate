@@ -1,3 +1,4 @@
+// NOTE: Remove this and passport, and implement normal Jwt verification with CanActivate
 import { AppConfigService } from '@config/config.service';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
