@@ -25,6 +25,7 @@
       "@enums/*": ["./src/utils/enums/*"],
       "@filters/*": ["./src/utils/filters/*"],
       "@interceptors/*": ["./src/utils/interceptors/*"],
+      "@jwt/*": ["./src/auth/jwt/*"],
       "@role/*": ["./src/roles/*"],
       "@src/*": ["./src/*"],
       "@user/*": ["./src/users/*"],

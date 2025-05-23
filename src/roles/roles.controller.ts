@@ -1,10 +1,10 @@
 import { ResponseMessage } from '@decorators/responseMessage.decorator';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { RolesService } from './roles.service';
-import { CreateRoleDto } from './dto/create-role.dto';
-import { ReadRolesDto } from './dto/read-role.dto';
-import { ReadPaginatedRolesDto } from './dto/read-paginated-role';
-import { UpdateRoleDto } from './dto/update-role.dto';
+import { RolesService } from '@role/roles.service';
+import { CreateRoleDto } from '@role/dto/create-role.dto';
+import { ReadRolesDto } from '@role/dto/read-role.dto';
+import { ReadPaginatedRolesDto } from '@role/dto/read-paginated-role';
+import { UpdateRoleDto } from '@role/dto/update-role.dto';
 
 @Controller('roles')
 export class RolesController {

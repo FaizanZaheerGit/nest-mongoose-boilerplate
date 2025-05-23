@@ -8,7 +8,6 @@ export class SendgridService {
   private sendGridFromEmail: string;
   constructor(@Inject(AppConfigService) private readonly appConfigService: AppConfigService) {
     const { SENDGRID_API_KEY, SENDGRID_FROM_EMAIL } = this.appConfigService.sendGridConfig;
-    console.log(`SG CONF:  =>  ${SENDGRID_API_KEY}\n${SENDGRID_FROM_EMAIL}`);
     this.sendGridFromEmail = SENDGRID_FROM_EMAIL || '';
     sgMail.setApiKey(String(SENDGRID_API_KEY));
   }

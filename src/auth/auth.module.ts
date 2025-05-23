@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
+import { AuthService } from '@auth/auth.service';
+import { AuthController } from '@auth/auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { OtpToken, OtpTokenSchema } from './models/otptokens.model';
-import { ResetToken, ResetTokenSchema } from './models/resettokens.model';
+import { OtpToken, OtpTokenSchema } from '@auth/models/otptokens.model';
+import { ResetToken, ResetTokenSchema } from '@auth/models/resettokens.model';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConfigService } from '@config/config.service';
-import { UsersModule } from '@src/users/users.module';
+import { UsersModule } from '@user/users.module';
+import { JwtStrategy } from '@jwt/jwt.strategy';
+import { CustomJwtService } from '@jwt/jwt.service';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { UsersModule } from '@src/users/users.module';
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy, CustomJwtService],
   exports: [AuthService],
 })
 export class AuthModule {}

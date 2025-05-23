@@ -2,7 +2,7 @@ import { BaseRespository } from '@database/repositories/base.repository';
 import { FilterQuery, Model, Types } from 'mongoose';
 import { User } from '@user/models/users.model';
 import { UserTypeEnums } from '@utils/enums/userType.enums';
-import { IUserRepository } from '@src/users/interfaces/users.repository.interface';
+import { IUserRepository } from '@user/interfaces/users.repository.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 
@@ -13,7 +13,7 @@ export class UserRepository extends BaseRespository<User> implements IUserReposi
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
-    return await this.findOne({ email });
+    return await this.findOne({ email }, { populate: { path: 'roles', select: 'title rights' } });
   }
 
   async getSingleActiveAdmin(): Promise<User | null> {

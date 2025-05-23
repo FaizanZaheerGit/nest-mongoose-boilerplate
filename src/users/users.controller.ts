@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { UsersService } from '@user/users.service';
 import { CreateUserDto } from '@user/dto/create-user.dto';
 import { UpdateUserDto } from '@user/dto/update-user.dto';
-import { ResponseMessage } from '@src/utils/decorators/responseMessage.decorator';
-import { ReadUsersDto } from './dto/read-user.dto';
-import { ReadPaginatedUsersDto } from './dto/read-paginated-user.dto';
+import { ResponseMessage } from '@utils/decorators/responseMessage.decorator';
+import { ReadUsersDto } from '@user/dto/read-user.dto';
+import { ReadPaginatedUsersDto } from '@user/dto/read-paginated-user.dto';
 import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 
 @Controller('users')

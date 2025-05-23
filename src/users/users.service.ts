@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { UserRepository } from './repositories/users.repository';
-import { IUserRepository } from './interfaces/users.repository.interface';
+import { UserRepository } from '@user/repositories/users.repository';
+import { IUserRepository } from '@user/interfaces/users.repository.interface';
 import { AppConfigService } from '@config/config.service';
-import { seedFirstAdminUser } from './seeders/user.seed';
+import { seedFirstAdminUser } from '@user/seeders/user.seed';
+
 @Injectable()
 export class UsersService implements OnModuleInit {
   constructor(

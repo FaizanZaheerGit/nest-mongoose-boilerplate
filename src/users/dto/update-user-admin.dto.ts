@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsString, ValidateIf } from 'class-validator';
-import { UpdateUserDto } from './update-user.dto';
-import { StatusEnums } from '@src/utils/enums/status.enums';
-import { UserTypeEnums } from '@src/utils/enums/userType.enums';
+import { UpdateUserDto } from '@user/dto/update-user.dto';
+import { StatusEnums } from '@utils/enums/status.enums';
+import { UserTypeEnums } from '@utils/enums/userType.enums';
 
 export class UpdateUserAdminDto extends UpdateUserDto {
   @ApiProperty({

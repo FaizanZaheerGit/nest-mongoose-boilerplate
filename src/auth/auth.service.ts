@@ -1,13 +1,16 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
-import { UsersService } from '@src/users/users.service';
-import { comparePassword } from '@src/utils/bcrypt';
+import { LoginDto } from '@auth/dto/login.dto';
+import { UsersService } from '@user/users.service';
+import { comparePassword } from '@utils/bcrypt';
 import { StatusEnums } from '@enums/status.enums';
-import { generateToken } from '@src/utils/jwt';
+import { CustomJwtService } from '@jwt/jwt.service';
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject(UsersService) private readonly usersService: UsersService) {}
+  constructor(
+    @Inject(UsersService) private readonly usersService: UsersService,
+    @Inject(CustomJwtService) private readonly jwtService: CustomJwtService,
+  ) {}
   async login(loginDto: LoginDto) {
     try {
       const { email } = loginDto;
@@ -37,7 +40,7 @@ export class AuthService {
       if (!doesPasswordMatch) {
         throw new HttpException('Invalid e-mail or password', HttpStatus.BAD_REQUEST);
       }
-      const accessToken = generateToken({ email });
+      const accessToken = this.jwtService.generateToken({ email });
       //   const { password, ...user } = existingUser;
       // TODO: remove password from existingUser
       return { user: existingUser, accessToken };

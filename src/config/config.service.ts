@@ -1,7 +1,7 @@
 // TODO: Make this Base Config Class and use registerAs for config level items like dbConfig, twilioConfig, appConfig etc.
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ConfigValidation } from './config.validation';
+import { ConfigValidation } from '@config/config.validation';
 
 @Injectable()
 export class AppConfigService {
