@@ -13,6 +13,7 @@ import { PermissionEnums } from '@enums/permissions.enum';
 
 export abstract class IRoleRepository {
   abstract create(data: Partial<Role>): Promise<Role>;
+  abstract insertMany(data: Partial<Role>[]): Promise<any>;
   abstract findAll(
     filterQuery: FilterQuery<Role>,
     queryOptions: QueryOptions<Role>,
@@ -46,11 +47,6 @@ export abstract class IRoleRepository {
   abstract getRolesByRights(rights: PermissionEnums[]): Promise<Role[] | null>;
   abstract getRoleById(id: string): Promise<Role | null>;
   abstract getRoleByIds(ids: string[]): Promise<Role[]>;
-  abstract getPaginatedRoles(
-    page: number,
-    limit: number,
-    filterQuery: FilterQuery<Role>,
-  ): Promise<Role[]>;
   abstract getRoles(filterQuery: FilterQuery<Role>): Promise<Role[]>;
   abstract getSingleRole(filterQuery: FilterQuery<Role>): Promise<Role | null>;
   abstract updateRoleById(id: string, updateQuery: Partial<Role>): Promise<Role | null>;

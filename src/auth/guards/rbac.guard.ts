@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return */
+import { UserTypeEnums } from '@enums/userType.enums';
 import {
   CanActivate,
   ExecutionContext,
@@ -17,6 +18,9 @@ export class RbacGuard implements CanActivate {
     const { user } = ctx.switchToHttp().getRequest();
     if (!user) {
       throw new HttpException(`Unauthorized Access`, HttpStatus.UNAUTHORIZED);
+    }
+    if (user?.userType === UserTypeEnums.ADMIN) {
+      return true;
     }
     const allowedPermissions = this.reflector.getAllAndOverride<any>('permissions', [
       ctx.getHandler(),

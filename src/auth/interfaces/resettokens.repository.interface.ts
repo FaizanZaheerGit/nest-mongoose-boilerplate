@@ -13,6 +13,7 @@ import { User } from '@user/models/users.model';
 
 export abstract class IResetTokenRepository {
   abstract create(data: Partial<ResetToken>): Promise<ResetToken>;
+  abstract insertMany(data: Partial<ResetToken>[]): Promise<any>;
   abstract findAll(
     filterQuery: FilterQuery<ResetToken>,
     queryOptions: QueryOptions<ResetToken>,

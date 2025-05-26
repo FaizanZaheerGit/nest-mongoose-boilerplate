@@ -22,6 +22,10 @@ export class BaseRespository<T> {
     return await this.model.create(data);
   }
 
+  async insertMany(data: Partial<T>[]): Promise<any> {
+    return await this.model.insertMany(data);
+  }
+
   async findAll(
     filterQuery: FilterQuery<T>,
     queryOptions: QueryOptions<T> = {},

@@ -16,7 +16,4 @@ export class BaseModel {
 
   @Prop({ type: String, default: null })
   deletedAt?: string;
-
-  @Prop({ type: Boolean, default: false })
-  isDeleted?: boolean;
 }

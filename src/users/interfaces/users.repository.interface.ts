@@ -12,6 +12,7 @@ import { User } from '@user/models/users.model';
 
 export abstract class IUserRepository {
   abstract create(data: Partial<User>): Promise<User>;
+  abstract insertMany(data: Partial<User>[]): Promise<any>;
   abstract findAll(
     filterQuery: FilterQuery<User>,
     queryOptions: QueryOptions<User>,

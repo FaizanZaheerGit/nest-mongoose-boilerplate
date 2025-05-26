@@ -18,14 +18,6 @@ export class RoleRepository extends BaseRespository<Role> implements IRoleReposi
     return await this.findAll({ rights: { $in: rights } });
   }
 
-  async getPaginatedRoles(
-    page: number,
-    limit: number,
-    filterQuery: FilterQuery<Role>,
-  ): Promise<Role[]> {
-    return await this.findPaginated(page, limit, filterQuery);
-  }
-
   async getRoles(filterQuery: FilterQuery<Role>): Promise<Role[]> {
     return await this.findAll(filterQuery);
   }

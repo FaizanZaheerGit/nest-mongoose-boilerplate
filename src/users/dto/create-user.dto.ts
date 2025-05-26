@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Role } from '@role/models/roles.model';
 import {
+  IsArray,
   IsEmail,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
@@ -68,4 +71,24 @@ export class CreateUserDto {
   @IsString({ message: 'phone number must be a string' })
   @IsOptional()
   phoneNumber?: string;
+
+  @ApiProperty({
+    title: 'Role Ids',
+    name: 'roleIds',
+    description: 'This is the array of role ids',
+    example: ['6806287ea2d840de8bee3064'],
+    isArray: true,
+    type: [String],
+  })
+  @ValidateIf(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    (obj) => obj.roleIds !== undefined && obj.roleIds !== null && obj.roleIds.length !== 0,
+  )
+  @IsMongoId({ each: true, message: 'items inside role ids must be a valid Mongo Id' })
+  @IsString({ each: true, message: 'items inside role Ids should be a string' })
+  @IsArray({ message: 'roleIds must be an array' })
+  @IsOptional()
+  roleIds?: string[];
+
+  roles?: Role[];
 }

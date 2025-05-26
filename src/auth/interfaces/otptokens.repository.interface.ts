@@ -13,6 +13,7 @@ import { User } from '@user/models/users.model';
 
 export abstract class IOtpTokenRepository {
   abstract create(data: Partial<OtpToken>): Promise<OtpToken>;
+  abstract insertMany(data: Partial<OtpToken>[]): Promise<any>;
   abstract findAll(
     filterQuery: FilterQuery<OtpToken>,
     queryOptions: QueryOptions<OtpToken>,

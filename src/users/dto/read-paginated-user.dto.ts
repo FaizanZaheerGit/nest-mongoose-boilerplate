@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsNumberString, IsOptional, ValidateIf } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, ValidateIf } from 'class-validator';
 import { StatusEnums } from '@utils/enums/status.enums';
 
 export class ReadPaginatedUsersDto {
@@ -54,7 +54,7 @@ export class ReadPaginatedUsersDto {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return parseInt(value, 10);
   })
-  @IsNumberString({ no_symbols: true }, { message: 'page must be a valid number without decimal' })
+  // @IsNumberString({ no_symbols: true }, { message: 'page must be a valid number without decimal' })
   @IsNotEmpty({ message: 'page is required' })
   page!: number;
 
@@ -70,7 +70,7 @@ export class ReadPaginatedUsersDto {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return parseInt(value, 10);
   })
-  @IsNumberString({ no_symbols: true }, { message: 'page must be a valid number without decimal' })
+  // @IsNumberString({ no_symbols: true }, { message: 'page must be a valid number without decimal' })
   @IsNotEmpty({ message: 'limit is required' })
   limit!: number;
 }

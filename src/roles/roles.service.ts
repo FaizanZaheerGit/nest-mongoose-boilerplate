@@ -1,4 +1,135 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { RoleRepository } from './repositories/roles.repository';
+import { IRoleRepository } from './interfaces/roles.repository.interface';
+import { CreateRoleDto } from './dto/create-role.dto';
+import { ReadRolesDto } from './dto/read-role.dto';
+import { ReadPaginatedRolesDto } from './dto/read-paginated-role';
+import { UpdateRoleDto } from './dto/update-role.dto';
+import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
+import { StatusEnums } from '@enums/status.enums';
+import { seedDefaultRoles } from '@role/seeders/role.seed';
 
 @Injectable()
-export class RolesService {}
+export class RolesService implements OnModuleInit {
+  constructor(@Inject(RoleRepository) private readonly roleRepository: IRoleRepository) {}
+
+  async onModuleInit() {
+    await seedDefaultRoles(this.roleRepository);
+  }
+
+  async getRoleByIds(ids: string[]) {
+    try {
+      return await this.roleRepository.getRoleByIds(ids);
+    } catch (error) {
+      console.error(`Error in get role by ids service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async createRole(createRoleDto: CreateRoleDto) {
+    try {
+      const { title } = createRoleDto;
+      const existingRoleTitle = await this.roleRepository.getRoleByTitle(title);
+      if (existingRoleTitle) {
+        throw new HttpException(`Role with title already exists`, HttpStatus.CONFLICT);
+      }
+      const newRole = await this.roleRepository.create(createRoleDto);
+      return { entity: newRole };
+    } catch (error) {
+      console.error(`Error in create role service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async readRoles(readRoleDto: ReadRolesDto) {
+    try {
+      const roles = await this.roleRepository.getRoles(readRoleDto);
+      console.log(`ROLES:  ${JSON.stringify(roles)}`);
+      return { entities: roles };
+    } catch (error) {
+      console.error(`Error in read roles service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async readPaginatedRoles(readPaginatedRolesDto: ReadPaginatedRolesDto) {
+    try {
+      const { page, limit, ...filterQuery } = readPaginatedRolesDto;
+      const [roles, totalCount] = await Promise.all([
+        this.roleRepository.findPaginated(page, limit, filterQuery, {}, false), // TODO: change this getPaginated function from role repo
+        this.roleRepository.countDocuments(filterQuery),
+      ]);
+      const totalPages = Math.ceil(totalCount / limit);
+      const hasNext: boolean = page < totalPages;
+      return {
+        entities: roles,
+        meta: { currentPage: page, hasNext, pageSize: limit, totalCount, totalPages },
+      };
+    } catch (error) {
+      console.error(`Error in read paginated roles service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async readRoleById(id: string) {
+    try {
+      const existingRole = await this.roleRepository.getRoleById(id);
+      if (!existingRole) {
+        throw new HttpException('Role not found', HttpStatus.BAD_REQUEST);
+      }
+      return { entity: existingRole };
+    } catch (error) {
+      console.error(`Error in read role by id service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async updateRole(id: string, updateRoleDto: UpdateRoleDto) {
+    try {
+      const existingRole = await this.roleRepository.getRoleById(id);
+      if (!existingRole) {
+        throw new HttpException(`Role not found!`, HttpStatus.BAD_REQUEST);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      if (Object.values(DefaultRoleEnums).includes(existingRole.title as any)) {
+        throw new HttpException(`Cannot update pre-defined roles`, HttpStatus.BAD_REQUEST);
+      }
+      if (updateRoleDto?.title) {
+        const existingRoleByTitle = await this.roleRepository.getRoleByTitle(updateRoleDto.title);
+        if (existingRoleByTitle) {
+          throw new HttpException(`Role with title already exists!`, HttpStatus.CONFLICT);
+        }
+      }
+      await this.roleRepository.updateRoleById(id, updateRoleDto);
+      return {};
+    } catch (error) {
+      console.error(`Error in update role service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async deleteRole(id: string) {
+    try {
+      const existingRole = await this.roleRepository.getRoleById(id);
+      if (!existingRole) {
+        throw new HttpException(`Role not found!`, HttpStatus.BAD_REQUEST);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      if (Object.values(DefaultRoleEnums).includes(existingRole.title as any)) {
+        throw new HttpException(`Cannot delete pre-defined roles`, HttpStatus.BAD_REQUEST);
+      }
+      await this.roleRepository.updateRoleById(id, { status: StatusEnums.DELETED });
+      return {};
+    } catch (error) {
+      console.error(`Error in delete role service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+}
