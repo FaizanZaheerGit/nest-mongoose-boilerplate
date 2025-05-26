@@ -50,4 +50,14 @@ export class AuthService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+
+  logout() {
+    try {
+      return {};
+    } catch (error) {
+      console.error(`Error in Logout serivce:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
 }

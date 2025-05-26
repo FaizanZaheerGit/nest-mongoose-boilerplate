@@ -1,12 +1,13 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import { AuthService } from '@auth/auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { LoginDto } from './dto/login.dto';
-import { ForgotPasswordDto } from './dto/forgot-password.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
-import { SendOtpDto } from './dto/send.otp.dto';
-import { VerifyOtpDto } from './dto/verify-otp.dto';
+import { LoginDto } from '@auth/dto/login.dto';
+import { ForgotPasswordDto } from '@auth/dto/forgot-password.dto';
+import { ResetPasswordDto } from '@auth/dto/reset-password.dto';
+import { SendOtpDto } from '@auth/dto/send.otp.dto';
+import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
 import { ResponseMessage } from '@src/utils/decorators/responseMessage.decorator';
+import { JwtAuthGuard } from '@auth/guards/auth.guard';
 
 @Controller('auth')
 @ApiTags('Auth Module')
@@ -20,9 +21,10 @@ export class AuthController {
 
   @ResponseMessage('SUCCESS')
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get('/logout')
   logout() {
-    return true;
+    return this.authService.logout();
   }
 
   @ResponseMessage('Reset Password E-mail Sent Successfully')
