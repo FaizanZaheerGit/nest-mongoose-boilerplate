@@ -15,6 +15,6 @@ export class OtpTokenRepository extends BaseRespository<OtpToken> implements IOt
   }
 
   async getByTokenAndUser(user: User, token: string): Promise<OtpToken | null> {
-    return await this.findOne({ user, token });
+    return await this.findOne({ user, token }, {});
   }
 }

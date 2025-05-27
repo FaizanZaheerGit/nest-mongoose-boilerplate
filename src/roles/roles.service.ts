@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { RoleRepository } from './repositories/roles.repository';
-import { IRoleRepository } from './interfaces/roles.repository.interface';
-import { CreateRoleDto } from './dto/create-role.dto';
-import { ReadRolesDto } from './dto/read-role.dto';
-import { ReadPaginatedRolesDto } from './dto/read-paginated-role';
-import { UpdateRoleDto } from './dto/update-role.dto';
+import { RoleRepository } from '@role/repositories/roles.repository';
+import { IRoleRepository } from '@role/interfaces/roles.repository.interface';
+import { CreateRoleDto } from '@role/dto/create-role.dto';
+import { ReadRolesDto } from '@role/dto/read-role.dto';
+import { ReadPaginatedRolesDto } from '@role/dto/read-paginated-role';
+import { UpdateRoleDto } from '@role/dto/update-role.dto';
 import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
 import { StatusEnums } from '@enums/status.enums';
 import { seedDefaultRoles } from '@role/seeders/role.seed';

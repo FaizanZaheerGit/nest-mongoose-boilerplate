@@ -9,14 +9,10 @@ import {
   UpdateQuery,
   UpdateWriteOpResult,
 } from 'mongoose';
-import { StatusEnums } from '@utils/enums/status.enums';
+import { StatusEnums } from '@enums/status.enums';
 
 export class BaseRespository<T> {
-  private model: Model<T>;
-
-  constructor(model: Model<T>) {
-    this.model = model;
-  }
+  constructor(private readonly model: Model<T>) {}
 
   async create(data: Partial<T>): Promise<T> {
     return await this.model.create(data);

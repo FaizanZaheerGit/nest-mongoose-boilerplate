@@ -18,6 +18,6 @@ export class ResetTokenRepository
   }
 
   async getByTokenAndUser(user: User, token: string): Promise<ResetToken | null> {
-    return await this.findOne({ user, token });
+    return await this.findOne({ user, token }, {});
   }
 }

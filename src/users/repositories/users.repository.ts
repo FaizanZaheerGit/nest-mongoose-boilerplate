@@ -17,11 +17,11 @@ export class UserRepository extends BaseRespository<User> implements IUserReposi
   }
 
   async getSingleActiveAdmin(): Promise<User | null> {
-    return await this.findOne({ userType: UserTypeEnums.ADMIN });
+    return await this.findOne({ userType: UserTypeEnums.ADMIN }, {});
   }
 
   async getUsers(filterQuery: FilterQuery<User>): Promise<User[]> {
-    return await this.findAll(filterQuery, { projection: { password: 0 } });
+    return await this.findAll(filterQuery, { projection: { password: 0 } }, false);
   }
 
   async getSingleUser(filterQuery: FilterQuery<User>): Promise<User | null> {
@@ -29,10 +29,10 @@ export class UserRepository extends BaseRespository<User> implements IUserReposi
   }
 
   async getUserById(id: string): Promise<User | null> {
-    return await this.findOne({ _id: new Types.ObjectId(id) });
+    return await this.findOne({ _id: new Types.ObjectId(id) }, {});
   }
 
   async updateUserById(id: string, updateQuery: Partial<User>) {
-    return await this.findOneAndUpdate({ _id: new Types.ObjectId(id) }, { $set: updateQuery });
+    return await this.findOneAndUpdate({ _id: new Types.ObjectId(id) }, { $set: updateQuery }, {});
   }
 }
