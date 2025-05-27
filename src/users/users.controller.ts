@@ -35,6 +35,7 @@ export class UsersController {
     return this.usersService.createUser(createUserDto);
   }
 
+  // TODO: implement cursor based pagination for all data reads for optimizations
   @ResponseMessage('SUCCESS')
   @ApiBearerAuth()
   @AllowedPermissions(

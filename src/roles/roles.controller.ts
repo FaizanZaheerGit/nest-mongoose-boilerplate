@@ -18,11 +18,12 @@ export class RolesController {
   @ResponseMessage('Role Created Successfully')
   @AllowedPermissions(PermissionEnums.CREATE_ROLES)
   @UseGuards(RbacGuard)
-  @Post('')
+  @Post()
   createRole(@Body() createRoleDto: CreateRoleDto) {
     return this.rolesService.createRole(createRoleDto);
   }
 
+  // TODO: implement cursor based pagination for all data reads for optimizations
   @ResponseMessage('SUCCESS')
   @AllowedPermissions(
     PermissionEnums.CREATE_ROLES,
@@ -31,7 +32,7 @@ export class RolesController {
     PermissionEnums.DELETE_ROLES,
   )
   @UseGuards(RbacGuard)
-  @Get('')
+  @Get()
   readRoles(@Query() readRolesDto: ReadRolesDto) {
     return this.rolesService.readRoles(readRolesDto);
   }
