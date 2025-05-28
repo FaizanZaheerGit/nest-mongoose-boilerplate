@@ -51,4 +51,11 @@ export class AuthController {
   verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
     return verifyOtpDto;
   }
+
+  // TODO: Work on accessToken and refreshToken functionality
+  // @ResponseMessage('SUCCESS')
+  // @Get('/refresh')
+  // refreshToken() {
+  //   return true;
+  // }
 }

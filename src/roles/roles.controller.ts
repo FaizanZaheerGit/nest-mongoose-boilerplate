@@ -23,7 +23,7 @@ export class RolesController {
     return this.rolesService.createRole(createRoleDto);
   }
 
-  // TODO: implement cursor based pagination for all data reads for optimizations
+  // TODO: implement cursor based pagination for all data reads for optimization
   @ResponseMessage('SUCCESS')
   @AllowedPermissions(
     PermissionEnums.CREATE_ROLES,
