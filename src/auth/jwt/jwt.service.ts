@@ -2,6 +2,7 @@ import { AppConfigService } from '@config/config.service';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 
+// TODO: Add Refresh Token functionality here
 @Injectable()
 export class CustomJwtService {
   constructor(@Inject(AppConfigService) private readonly appConfigService: AppConfigService) {}
