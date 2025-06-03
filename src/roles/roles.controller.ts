@@ -34,7 +34,7 @@ export class RolesController {
   @UseGuards(RbacGuard)
   @Get()
   readRoles(@Query() readRolesDto: ReadRolesDto) {
-    return this.rolesService.readRoles(readRolesDto);
+    return this.rolesService.readCursorBasedRoles(readRolesDto);
   }
 
   @ResponseMessage('SUCCESS')

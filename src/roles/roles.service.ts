@@ -43,13 +43,23 @@ export class RolesService implements OnModuleInit {
     }
   }
 
-  async readRoles(readRoleDto: ReadRolesDto) {
+  async readAllRoles(readRoleDto: ReadRolesDto) {
     try {
       const roles = await this.roleRepository.getRoles(readRoleDto);
-      console.log(`ROLES:  ${JSON.stringify(roles)}`);
       return { entities: roles };
     } catch (error) {
       console.error(`Error in read roles service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async readCursorBasedRoles(readRoleDto: ReadRolesDto) {
+    try {
+      const roles = await this.roleRepository.getRoles(readRoleDto);
+      return { entities: roles };
+    } catch (error) {
+      console.error(`Error in read cursor based roles service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

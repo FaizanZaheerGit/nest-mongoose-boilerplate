@@ -47,7 +47,7 @@ export class UsersController {
   @UseGuards(RbacGuard)
   @Get()
   findAll(@Query() readUsersDto: ReadUsersDto) {
-    return this.usersService.readUsers(readUsersDto);
+    return this.usersService.readCursorBasedUsers(readUsersDto);
   }
 
   @ResponseMessage('SUCCESS')

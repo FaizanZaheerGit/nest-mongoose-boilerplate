@@ -63,12 +63,24 @@ export class UsersService implements OnModuleInit {
     }
   }
 
-  async readUsers(readUsersDto: ReadUsersDto) {
+  async readAllUsers(readUsersDto: ReadUsersDto) {
     try {
       const users = await this.userRepository.getUsers(readUsersDto);
       return { entities: users };
     } catch (error) {
       console.error(`Error in get users service:  =>  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async readCursorBasedUsers(readUsersDto: ReadUsersDto) {
+    try {
+      // TODO: Work on this
+      const users = await this.userRepository.getUsers(readUsersDto);
+      return { entities: users };
+    } catch (error) {
+      console.error(`Error in get cursor based users service:  =>  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
