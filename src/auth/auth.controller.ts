@@ -52,7 +52,7 @@ export class AuthController {
     return verifyOtpDto;
   }
 
-  // TODO: Work on accessToken and refreshToken functionality,
+  // NOTE: Work on accessToken and refreshToken functionality,
   // @ResponseMessage('SUCCESS')
   // @Get('/refresh')
   // refreshToken() {
