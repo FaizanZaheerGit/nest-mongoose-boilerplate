@@ -54,7 +54,7 @@ export class AuthController {
 
   // NOTE: Work on accessToken and refreshToken functionality,
   // @ResponseMessage('SUCCESS')
-  // @Get('/refresh')
+  // @Get('/tokens/refresh')
   // refreshToken() {
   //   return true;
   // }
