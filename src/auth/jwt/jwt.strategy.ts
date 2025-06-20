@@ -33,6 +33,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       name: existingUser['name'],
       roles: existingUser['roles'],
       userType: existingUser['userType'],
+      status: existingUser['status'],
     };
   }
 }

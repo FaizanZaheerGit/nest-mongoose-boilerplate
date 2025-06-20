@@ -20,6 +20,7 @@ import { JwtAuthGuard } from '@auth/guards/auth.guard';
 import { RbacGuard } from '@auth/guards/rbac.guard';
 import { AllowedPermissions } from '@decorators/allowedPermissions.decorator';
 import { PermissionEnums } from '@enums/permissions.enum';
+import { GetCurrentUser } from '@decorators/currentUser.decorator';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -62,6 +63,25 @@ export class UsersController {
   @Get('/paginated')
   findPaginated(@Query() readPaginatedUsersDto: ReadPaginatedUsersDto) {
     return this.usersService.readPaginatedUsers(readPaginatedUsersDto);
+  }
+
+  @ResponseMessage('SUCCESS')
+  @ApiBearerAuth()
+  @AllowedPermissions(
+    PermissionEnums.CREATE_USERS,
+    PermissionEnums.READ_USERS,
+    PermissionEnums.EDIT_USERS,
+    PermissionEnums.DELETE_USERS,
+    PermissionEnums.CREATE_ROLES,
+    PermissionEnums.READ_ROLES,
+    PermissionEnums.EDIT_ROLES,
+    PermissionEnums.DELETE_ROLES,
+  )
+  @UseGuards(RbacGuard)
+  @Get('/me')
+  getCurrentUserDetails(@GetCurrentUser() currentUser: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return this.usersService.readCurrentUserDetails(currentUser);
   }
 
   @ResponseMessage('SUCCESS')

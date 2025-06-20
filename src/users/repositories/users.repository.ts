@@ -29,7 +29,10 @@ export class UserRepository extends BaseRespository<User> implements IUserReposi
   }
 
   async getUserById(id: string): Promise<User | null> {
-    return await this.findOne({ _id: new Types.ObjectId(id) }, {});
+    return await this.findOne(
+      { _id: new Types.ObjectId(id) },
+      { projection: { password: 0 }, populate: { path: 'roles', select: 'title rights' } },
+    );
   }
 
   async updateUserById(id: string, updateQuery: Partial<User>) {

@@ -9,6 +9,7 @@ import { StatusEnums } from '@enums/status.enums';
 import { ReadUsersDto } from '@user/dto/read-user.dto';
 import { ReadPaginatedUsersDto } from '@user/dto/read-paginated-user.dto';
 import { UpdateUserDto } from '@user/dto/update-user.dto';
+import { User } from '@user/models/users.model';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -101,6 +102,16 @@ export class UsersService implements OnModuleInit {
       };
     } catch (error) {
       console.error(`Error in read paginated users service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  readCurrentUserDetails(currentUser: User) {
+    try {
+      return { user: currentUser };
+    } catch (error) {
+      console.error(`Error in read current user details:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
