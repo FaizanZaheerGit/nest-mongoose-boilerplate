@@ -24,6 +24,17 @@ export class UserRepository extends BaseRespository<User> implements IUserReposi
     return await this.findAll(filterQuery, { projection: { password: 0 } }, false);
   }
 
+  async getCursorBasedUsers(
+    filterQuery: FilterQuery<User>,
+    cursor: string,
+    limit: number,
+  ): Promise<User[]> {
+    return await this.findAll(
+      { ...filterQuery, ...(cursor ? { _id: { $gt: cursor } } : {}) },
+      { projection: { password: 0 }, sort: { _id: 1 }, limit: limit + 1 },
+    );
+  }
+
   async getSingleUser(filterQuery: FilterQuery<User>): Promise<User | null> {
     return await this.findOne(filterQuery, { projection: { password: 0 } });
   }

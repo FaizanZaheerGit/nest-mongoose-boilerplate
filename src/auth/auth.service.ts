@@ -43,7 +43,7 @@ export class AuthService {
       const accessToken = this.jwtService.generateToken({ email });
       //   const { password, ...user } = existingUser;
       // TODO: remove password from existingUser
-      return { entity: existingUser, accessToken };
+      return { entity: existingUser, token: accessToken };
     } catch (error) {
       console.log(`Error in Login Service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access

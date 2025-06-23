@@ -77,9 +77,14 @@ export class UsersService implements OnModuleInit {
 
   async readCursorBasedUsers(readUsersDto: ReadUsersDto) {
     try {
-      // TODO: Work on this
-      const users = await this.userRepository.getUsers(readUsersDto);
-      return { entities: users };
+      const { cursor, limit, ...filterQuery } = readUsersDto;
+      const users = await this.userRepository.getCursorBasedUsers(filterQuery, cursor, limit);
+      const hasNext = users.length > limit;
+      if (hasNext) {
+        users.pop();
+      }
+      const nextCursor = hasNext ? users[users.length - 1]._id : null;
+      return { entities: users, hasNext, nextCursor };
     } catch (error) {
       console.error(`Error in get cursor based users service:  =>  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access

@@ -46,6 +46,11 @@ export abstract class IUserRepository {
   abstract getUserById(id: string): Promise<User | null>;
   abstract getSingleActiveAdmin(): Promise<User | null>;
   abstract getUsers(filterQuery: FilterQuery<User>): Promise<User[]>;
+  abstract getCursorBasedUsers(
+    filterQuery: FilterQuery<User>,
+    cursor: any,
+    limit: number,
+  ): Promise<User[]>;
   abstract getSingleUser(filterQuery: FilterQuery<User>): Promise<User | null>;
   abstract updateUserById(id: string, updateQuery: Partial<User>): Promise<User | null>;
 }

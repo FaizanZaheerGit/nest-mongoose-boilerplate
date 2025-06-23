@@ -22,6 +22,17 @@ export class RoleRepository extends BaseRespository<Role> implements IRoleReposi
     return await this.findAll(filterQuery, {}, false);
   }
 
+  async getCursorBasedRoles(
+    filterQuery: FilterQuery<Role>,
+    cursor: string,
+    limit: number,
+  ): Promise<Role[]> {
+    return await this.findAll(
+      { ...filterQuery, ...(cursor ? { _id: { $gt: cursor } } : {}) },
+      { sort: { _id: 1 }, limit: limit + 1 },
+    );
+  }
+
   async getSingleRole(filterQuery: FilterQuery<Role>): Promise<Role | null> {
     return await this.findOne(filterQuery, {});
   }

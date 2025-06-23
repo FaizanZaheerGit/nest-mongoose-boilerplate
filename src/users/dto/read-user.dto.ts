@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 import { StatusEnums } from '@utils/enums/status.enums';
+import { Transform } from 'class-transformer';
 
 export class ReadUsersDto {
   @ApiProperty({
@@ -37,4 +38,30 @@ export class ReadUsersDto {
   })
   @IsOptional()
   status?: StatusEnums;
+
+  @ApiProperty({
+    title: 'Cursor',
+    name: 'cursor',
+    description: 'This is the id of next user in the cursor based pagination',
+    required: false,
+    type: String,
+  })
+  @IsOptional()
+  cursor?: string;
+
+  @ApiProperty({
+    title: 'Limit',
+    name: 'limit',
+    description: 'This is the limit per page for paginated data',
+    example: '10',
+    required: true,
+    type: String,
+  })
+  @Transform(({ value }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return parseInt(value, 10);
+  })
+  // @IsNumberString({ no_symbols: true }, { message: 'page must be a valid number without decimal' })
+  @IsNotEmpty({ message: 'limit is required' })
+  limit: number;
 }

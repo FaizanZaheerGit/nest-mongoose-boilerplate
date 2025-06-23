@@ -48,6 +48,11 @@ export abstract class IRoleRepository {
   abstract getRoleById(id: string): Promise<Role | null>;
   abstract getRoleByIds(ids: string[]): Promise<Role[]>;
   abstract getRoles(filterQuery: FilterQuery<Role>): Promise<Role[]>;
+  abstract getCursorBasedRoles(
+    filterQuery: FilterQuery<Role>,
+    cursor: any,
+    limit: number,
+  ): Promise<Role[]>;
   abstract getSingleRole(filterQuery: FilterQuery<Role>): Promise<Role | null>;
   abstract updateRoleById(id: string, updateQuery: Partial<Role>): Promise<Role | null>;
 }
