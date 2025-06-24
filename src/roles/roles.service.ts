@@ -57,7 +57,17 @@ export class RolesService implements OnModuleInit {
   async readCursorBasedRoles(readRoleDto: ReadRolesDto) {
     try {
       const { cursor, limit, ...filterQuery } = readRoleDto;
-      const roles = await this.roleRepository.getCursorBasedRoles(filterQuery, cursor, limit);
+      // TODO: remove this and handle DTO and Validation Pipe properly to avoid undefined values
+      const cleanedFilterQuery = Object.entries(filterQuery)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .filter(([_, v]) => v !== undefined)
+        .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
+      // TODO: End of Todo
+      const roles = await this.roleRepository.getCursorBasedRoles(
+        cleanedFilterQuery,
+        cursor,
+        limit,
+      );
       const hasNext = roles.length > limit;
       if (hasNext) {
         roles.pop();

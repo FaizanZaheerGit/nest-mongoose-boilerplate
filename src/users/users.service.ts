@@ -78,7 +78,19 @@ export class UsersService implements OnModuleInit {
   async readCursorBasedUsers(readUsersDto: ReadUsersDto) {
     try {
       const { cursor, limit, ...filterQuery } = readUsersDto;
-      const users = await this.userRepository.getCursorBasedUsers(filterQuery, cursor, limit);
+
+      // TODO: remove this and handle DTO and Validation Pipe properly to avoid undefined values
+      const cleanedFilterQuery = Object.entries(filterQuery)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .filter(([_, v]) => v !== undefined)
+        .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
+      // TODO: End of Todo
+
+      const users = await this.userRepository.getCursorBasedUsers(
+        cleanedFilterQuery,
+        cursor,
+        limit,
+      );
       const hasNext = users.length > limit;
       if (hasNext) {
         users.pop();
