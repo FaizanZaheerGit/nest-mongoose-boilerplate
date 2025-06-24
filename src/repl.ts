@@ -5,4 +5,4 @@ async function bootstrap() {
   await repl(AppModule);
 }
 
-bootstrap();
+void bootstrap(); // NOTE: added void to avoid no floating promises ts error
