@@ -107,8 +107,16 @@ export class UsersService implements OnModuleInit {
   async readPaginatedUsers(readPaginatedUsersDto: ReadPaginatedUsersDto) {
     try {
       const { page, limit, ...filterQuery } = readPaginatedUsersDto;
+
+      // TODO: remove this and handle DTO and Validation Pipe properly to avoid undefined values
+      const cleanedFilterQuery = Object.entries(filterQuery)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .filter(([_, v]) => v !== undefined)
+        .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
+      // TODO: End of Todo
+
       const [users, totalCount] = await Promise.all([
-        this.userRepository.findPaginated(page, limit, filterQuery, {}, false), // TODO: change this getPaginated function from user repo
+        this.userRepository.findPaginated(page, limit, cleanedFilterQuery, {}, false), // TODO: change this getPaginated function from user repo
         this.userRepository.countDocuments(filterQuery),
       ]);
       const totalPages = Math.ceil(totalCount / limit);
