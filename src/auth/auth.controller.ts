@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from '@auth/auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from '@auth/dto/login.dto';
@@ -13,6 +22,7 @@ import { JwtAuthGuard } from '@auth/guards/auth.guard';
 @ApiTags('Auth Module')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+  @HttpCode(HttpStatus.OK)
   @ResponseMessage('SUCCESS')
   @Post('/login')
   login(@Body() loginDto: LoginDto) {
@@ -30,13 +40,13 @@ export class AuthController {
   @ResponseMessage('Reset Password E-mail Sent Successfully')
   @Post('/forgot-password')
   forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
-    return forgotPasswordDto;
+    return this.authService.forgotPassword(forgotPasswordDto);
   }
 
   @ResponseMessage('Password Reset Successfully')
   @Patch('/reset-password')
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-    return resetPasswordDto;
+    return this.authService.resetPassword(resetPasswordDto);
   }
 
   @ResponseMessage('OTP Sent Successfully')

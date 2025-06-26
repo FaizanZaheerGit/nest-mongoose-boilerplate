@@ -48,4 +48,5 @@ export abstract class IResetTokenRepository {
   abstract aggregate(stages: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<any>>;
   abstract createToken(user: any, token: string): Promise<ResetToken>;
   abstract getByTokenAndUser(user: User, token: string): Promise<ResetToken | null>;
+  abstract updateTokensExpiryByUser(userId: string, isExpired: boolean): Promise<ResetToken | null>;
 }

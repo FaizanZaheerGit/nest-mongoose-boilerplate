@@ -10,6 +10,8 @@ import { AppConfigService } from '@config/config.service';
 import { UsersModule } from '@user/users.module';
 import { JwtStrategy } from '@jwt/jwt.strategy';
 import { CustomJwtService } from '@jwt/jwt.service';
+import { ResetTokenRepository } from './repositories/resettoken.repository';
+import { OtpTokenRepository } from './repositories/otptokens.repository';
 
 @Module({
   imports: [
@@ -29,7 +31,7 @@ import { CustomJwtService } from '@jwt/jwt.service';
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, CustomJwtService],
+  providers: [AuthService, JwtStrategy, CustomJwtService, ResetTokenRepository, OtpTokenRepository],
   exports: [AuthService],
 })
 export class AuthModule {}

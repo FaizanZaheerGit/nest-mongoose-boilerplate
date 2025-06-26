@@ -34,6 +34,16 @@ export class UsersService implements OnModuleInit {
     }
   }
 
+  async getUserById(id: string) {
+    try {
+      return await this.userRepository.getUserById(id);
+    } catch (error) {
+      console.log(`Error in User Service get User by Id:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async createUser(createUserDto: CreateUserDto) {
     try {
       const existingUser = await this.userRepository.getUserByEmail(createUserDto.email);
@@ -164,6 +174,20 @@ export class UsersService implements OnModuleInit {
       }
       await this.userRepository.updateUserById(id, updateUserDto);
       return {};
+    } catch (error) {
+      console.error(`Error in update user service:  ${error}`);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async updateUserPasswordById(id: string, newPassword: string) {
+    try {
+      const existingUser = await this.userRepository.getUserById(id);
+      if (!existingUser) {
+        throw new HttpException(`User not found!`, HttpStatus.BAD_REQUEST);
+      }
+      return await this.userRepository.updateUserById(id, { password: newPassword });
     } catch (error) {
       console.error(`Error in update user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
