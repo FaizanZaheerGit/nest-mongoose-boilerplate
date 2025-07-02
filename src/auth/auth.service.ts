@@ -14,8 +14,8 @@ import { ResetPasswordDto } from '@auth/dto/reset-password.dto';
 import { AppConfigService } from '@config/config.service';
 import { SendgridService } from '@src/sendgrid/sendgrid.service';
 import { EmailBodies, EmailSubjects } from '@utils/email';
-import { SendOtpDto } from './dto/send.otp.dto';
-import { VerifyOtpDto } from './dto/verify-otp.dto';
+import { SendOtpDto } from '@auth/dto/send-otp.dto';
+import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
 
 @Injectable()
 export class AuthService {
@@ -136,7 +136,10 @@ export class AuthService {
         throw new HttpException('User not Found', HttpStatus.BAD_REQUEST);
       }
       const otpToken = Math.floor(100000 + Math.random() * 900000).toString();
-      await this.otpTokenRepository.createToken(existingUser, otpToken);
+      await Promise.all([
+        this.otpTokenRepository.updateTokenExpiryByUser(userId, true),
+        this.otpTokenRepository.createToken(existingUser, otpToken),
+      ]);
       const promises = [
         // TODO: Work on implementing event emitters and queue processors for sending emails and sms
         this.sendGridService.sendEmails(
@@ -155,6 +158,7 @@ export class AuthService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+
   async verifyOtp(verifyOtpDto: VerifyOtpDto) {
     try {
       const { userId, token } = verifyOtpDto;

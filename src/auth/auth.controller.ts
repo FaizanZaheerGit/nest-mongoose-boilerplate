@@ -13,7 +13,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from '@auth/dto/login.dto';
 import { ForgotPasswordDto } from '@auth/dto/forgot-password.dto';
 import { ResetPasswordDto } from '@auth/dto/reset-password.dto';
-import { SendOtpDto } from '@auth/dto/send.otp.dto';
+import { SendOtpDto } from '@auth/dto/send-otp.dto';
 import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
 import { ResponseMessage } from '@src/utils/decorators/responseMessage.decorator';
 import { JwtAuthGuard } from '@auth/guards/auth.guard';
@@ -53,13 +53,13 @@ export class AuthController {
   @ApiBearerAuth()
   @Post('/send-otp')
   sendOtp(@Body() sendOtpDto: SendOtpDto) {
-    return sendOtpDto;
+    return this.authService.sendOtp(sendOtpDto);
   }
 
   @ResponseMessage('OTP Verified Successfully')
   @Patch('/verify-otp')
   verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
-    return verifyOtpDto;
+    return this.authService.verifyOtp(verifyOtpDto);
   }
 
   // NOTE: Work on accessToken and refreshToken functionality
