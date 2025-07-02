@@ -137,7 +137,7 @@ export class AuthService {
       }
       const otpToken = Math.floor(100000 + Math.random() * 900000).toString();
       await Promise.all([
-        this.otpTokenRepository.updateTokenExpiryByUser(userId, true),
+        this.otpTokenRepository.updateTokensExpiryByUser(userId, true),
         this.otpTokenRepository.createToken(existingUser, otpToken),
       ]);
       const promises = [
@@ -172,7 +172,7 @@ export class AuthService {
       }
       await Promise.all([
         this.usersService.updateUserStatus(userId, StatusEnums.ACTIVE),
-        this.otpTokenRepository.updateTokenExpiryByUser(userId, true),
+        this.otpTokenRepository.updateTokensExpiryByUser(userId, true),
       ]);
       // TODO: Work on implementing event emitters and queue processors for sending emails and sms
       void this.sendGridService.sendEmails(
