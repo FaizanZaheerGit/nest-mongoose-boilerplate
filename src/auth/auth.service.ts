@@ -88,8 +88,8 @@ export class AuthService {
       await this.resetTokenRepository.createToken(existingUser['_id'], resetToken);
       const link = `${this.appConfigService.FRONTEND_URL}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
       console.log(`LINK:  ${link}`);
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.sendGridService.sendEmails(
+      // TODO: Work on implementing event emitters and queue processors for sending emails and sms
+      void this.sendGridService.sendEmails(
         [existingUser['email']],
         EmailSubjects.FORGOT_PASSWORD,
         EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
@@ -138,6 +138,7 @@ export class AuthService {
       const otpToken = Math.floor(100000 + Math.random() * 900000).toString();
       await this.otpTokenRepository.createToken(existingUser, otpToken);
       const promises = [
+        // TODO: Work on implementing event emitters and queue processors for sending emails and sms
         this.sendGridService.sendEmails(
           [existingUser['email']],
           EmailSubjects.SEND_OTP,
@@ -169,6 +170,7 @@ export class AuthService {
         this.usersService.updateUserStatus(userId, StatusEnums.ACTIVE),
         this.otpTokenRepository.updateTokenExpiryByUser(userId, true),
       ]);
+      // TODO: Work on implementing event emitters and queue processors for sending emails and sms
       void this.sendGridService.sendEmails(
         [existingUser['email']],
         EmailSubjects.VERIFY_OTP,
