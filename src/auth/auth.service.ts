@@ -84,6 +84,9 @@ export class AuthService {
       if (!existingUser) {
         throw new HttpException('User with email not found', HttpStatus.BAD_REQUEST);
       }
+      if (existingUser?.status !== StatusEnums.ACTIVE) {
+        throw new HttpException('This user is not active', HttpStatus.BAD_REQUEST);
+      }
       const resetToken = uuidV4();
       await this.resetTokenRepository.createToken(existingUser['_id'], resetToken);
       const link = `${this.appConfigService.FRONTEND_URL}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
@@ -135,6 +138,9 @@ export class AuthService {
       if (!existingUser) {
         throw new HttpException('User not Found', HttpStatus.BAD_REQUEST);
       }
+      if (existingUser?.status == StatusEnums.ACTIVE) {
+        throw new HttpException('This user is already verified', HttpStatus.BAD_REQUEST);
+      }
       const otpToken = Math.floor(100000 + Math.random() * 900000).toString();
       await Promise.all([
         this.otpTokenRepository.updateTokensExpiryByUser(userId, true),
@@ -165,6 +171,9 @@ export class AuthService {
       const existingUser = await this.usersService.getUserById(userId);
       if (!existingUser) {
         throw new HttpException('User not Found', HttpStatus.BAD_REQUEST);
+      }
+      if (existingUser?.status == StatusEnums.ACTIVE) {
+        throw new HttpException('This user is already verified', HttpStatus.BAD_REQUEST);
       }
       const existingOtp = await this.otpTokenRepository.getByTokenAndUser(existingUser, token);
       if (!existingOtp || existingOtp?.isExpired) {
