@@ -18,7 +18,7 @@ export class User extends BaseModel {
   name: string;
 
   @Prop({ type: String, required: true })
-  password: string;
+  password?: string;
 
   @Prop({ type: String, enum: UserTypeEnums, default: UserTypeEnums.USER })
   userType: UserTypeEnums;

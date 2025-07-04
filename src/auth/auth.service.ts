@@ -51,7 +51,7 @@ export class AuthService {
       }
       const doesPasswordMatch: boolean = await comparePassword(
         loginDto.password,
-        existingUser.password,
+        existingUser?.password || '',
       );
       if (!doesPasswordMatch) {
         throw new HttpException('Invalid e-mail or password', HttpStatus.BAD_REQUEST);
@@ -59,6 +59,7 @@ export class AuthService {
       const accessToken = this.jwtService.generateToken({ email });
       //   const { password, ...user } = existingUser;
       // TODO: remove password from existingUser
+      delete existingUser?.password;
       return { entity: existingUser, token: accessToken };
     } catch (error) {
       console.log(`Error in Login Service:  ${error}`);

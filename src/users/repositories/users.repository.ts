@@ -13,7 +13,10 @@ export class UserRepository extends BaseRespository<User> implements IUserReposi
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
-    return await this.findOne({ email }, { populate: { path: 'roles', select: 'title rights' } });
+    return await this.findOne(
+      { email },
+      { populate: { path: 'roles', select: 'title rights' }, lean: true },
+    );
   }
 
   async getSingleActiveAdmin(): Promise<User | null> {
