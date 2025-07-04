@@ -57,8 +57,6 @@ export class AuthService {
         throw new HttpException('Invalid e-mail or password', HttpStatus.BAD_REQUEST);
       }
       const accessToken = this.jwtService.generateToken({ email });
-      //   const { password, ...user } = existingUser;
-      // TODO: remove password from existingUser
       delete existingUser?.password;
       return { entity: existingUser, token: accessToken };
     } catch (error) {
