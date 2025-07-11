@@ -23,6 +23,7 @@
       "@database/*": ["./src/database/*"],
       "@decorators/*": ["./src/utils/decorators/*"],
       "@enums/*": ["./src/utils/enums/*"],
+      "@events/*": ["./src/utils/events/*"],
       "@filters/*": ["./src/utils/filters/*"],
       "@interceptors/*": ["./src/utils/interceptors/*"],
       "@jwt/*": ["./src/auth/jwt/*"],
