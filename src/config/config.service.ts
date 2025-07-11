@@ -1,4 +1,4 @@
-// TODO: Make this Base Config Class and use registerAs for config level items like dbConfig, twilioConfig, appConfig etc.
+// TODO: Make this Base Config Class and use registerAs for config level items like dbConfig, twilioConfig, appConfig etc
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ConfigValidation } from '@config/config.validation';
