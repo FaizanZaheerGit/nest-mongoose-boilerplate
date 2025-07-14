@@ -12,19 +12,20 @@ export class SendgridService {
     sgMail.setApiKey(String(SENDGRID_API_KEY));
   }
 
-  sendEmails = (
-    recipients: string[],
-    subject: string,
-    text: string,
-    html: string,
-  ): Promise<boolean> => {
+  sendEmails = (payload: {
+    recipients: string[];
+    subject: string;
+    html: string;
+    text: string;
+  }): Promise<boolean> => {
+    const { html, recipients, subject, text } = payload;
     return sgMail
       .send({
         from: this.sendGridFromEmail,
         to: recipients,
-        subject: subject,
-        text: text,
-        html: html,
+        subject,
+        text,
+        html,
       })
       .then(
         (val) => {

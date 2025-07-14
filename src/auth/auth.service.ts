@@ -91,12 +91,12 @@ export class AuthService {
       const link = `${this.appConfigService.FRONTEND_URL}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
       console.log(`LINK:  ${link}`);
       // TODO: Work on implementing event emitters and queue processors for sending emails and sms
-      void this.sendGridService.sendEmails(
-        [existingUser['email']],
-        EmailSubjects.FORGOT_PASSWORD,
-        EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
-        EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
-      );
+      // void this.sendGridService.sendEmails(
+      //   [existingUser['email']],
+      //   EmailSubjects.FORGOT_PASSWORD,
+      //   EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
+      //   EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
+      // );
 
       return {};
     } catch (error) {
@@ -147,12 +147,12 @@ export class AuthService {
       ]);
       const promises = [
         // TODO: Work on implementing event emitters and queue processors for sending emails and sms
-        this.sendGridService.sendEmails(
-          [existingUser['email']],
-          EmailSubjects.SEND_OTP,
-          EmailBodies.SEND_OTP(existingUser['name'], otpToken),
-          EmailBodies.SEND_OTP(existingUser['name'], otpToken),
-        ),
+        // this.sendGridService.sendEmails(
+        //   [existingUser['email']],
+        //   EmailSubjects.SEND_OTP,
+        //   EmailBodies.SEND_OTP(existingUser['name'], otpToken),
+        //   EmailBodies.SEND_OTP(existingUser['name'], otpToken),
+        // ),
       ];
       // TODO: Add phone number to this and SMS for OTP
       void Promise.all(promises);
@@ -183,12 +183,12 @@ export class AuthService {
         this.otpTokenRepository.updateTokensExpiryByUser(userId, true),
       ]);
       // TODO: Work on implementing event emitters and queue processors for sending emails and sms
-      void this.sendGridService.sendEmails(
-        [existingUser['email']],
-        EmailSubjects.VERIFY_OTP,
-        EmailBodies.VERIFY_OTP(existingUser['name']),
-        EmailBodies.VERIFY_OTP(existingUser['name']),
-      );
+      // void this.sendGridService.sendEmails(
+      //   [existingUser['email']],
+      //   EmailSubjects.VERIFY_OTP,
+      //   EmailBodies.VERIFY_OTP(existingUser['name']),
+      //   EmailBodies.VERIFY_OTP(existingUser['name']),
+      // );
     } catch (error) {
       console.error(`Error in Verify OTP serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access

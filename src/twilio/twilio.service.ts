@@ -11,8 +11,9 @@ export class TwilioService {
     this.twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
   }
 
-  sendBulkSms = async (recipients: string[], body: string): Promise<boolean> => {
+  sendBulkSms = async (payload: { recipients: string[]; body: string }): Promise<boolean> => {
     try {
+      const { body, recipients } = payload;
       const sendPromises = recipients.map((to) =>
         this.twilioClient.messages
           .create({
