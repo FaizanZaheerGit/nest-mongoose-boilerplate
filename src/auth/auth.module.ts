@@ -12,9 +12,10 @@ import { JwtStrategy } from '@jwt/jwt.strategy';
 import { CustomJwtService } from '@jwt/jwt.service';
 import { ResetTokenRepository } from './repositories/resettoken.repository';
 import { OtpTokenRepository } from './repositories/otptokens.repository';
-import { EmailSubcriber } from '@auth/events/subscribers/sendEmail.subscriber';
-import { SmsSubcriber } from '@auth/events/subscribers/sendSms.subscriber';
-import { AuthEventPublisher } from '@auth/events/event.publisher';
+import { EmailEventPublisher } from '@auth/events/publishers/sendEmail.publisher';
+import { SmsEventPublisher } from '@auth/events/publishers/sendSms.publisher';
+import { EmailEventSubcriber } from '@auth/events/subscribers/sendEmail.subscriber';
+import { SmsEventSubcriber } from '@auth/events/subscribers/sendSms.subscriber';
 
 @Module({
   imports: [
@@ -40,9 +41,10 @@ import { AuthEventPublisher } from '@auth/events/event.publisher';
     CustomJwtService,
     ResetTokenRepository,
     OtpTokenRepository,
-    AuthEventPublisher,
-    EmailSubcriber,
-    SmsSubcriber,
+    EmailEventPublisher,
+    SmsEventPublisher,
+    EmailEventSubcriber,
+    SmsEventSubcriber,
   ],
   exports: [AuthService],
 })

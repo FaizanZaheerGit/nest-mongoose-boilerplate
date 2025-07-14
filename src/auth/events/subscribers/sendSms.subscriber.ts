@@ -4,7 +4,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { TwilioService } from '@src/twilio/twilio.service';
 
 @Injectable()
-export class SmsSubcriber {
+export class SmsEventSubcriber {
   constructor(@Inject(TwilioService) private readonly twilioService: TwilioService) {}
 
   @OnEvent(EventNames.SEND_SMS)

@@ -4,7 +4,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { SendgridService } from '@src/sendgrid/sendgrid.service';
 
 @Injectable()
-export class EmailSubcriber {
+export class EmailEventSubcriber {
   constructor(@Inject(SendgridService) private readonly sendGridService: SendgridService) {}
 
   @OnEvent(EventNames.SEND_EMAIL)

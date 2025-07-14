@@ -16,8 +16,7 @@ import { AppConfigService } from '@config/config.service';
 import { EmailBodies, EmailSubjects } from '@utils/email';
 import { SendOtpDto } from '@auth/dto/send-otp.dto';
 import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
-import { AuthEventPublisher } from '@auth/events/event.publisher';
-import { EventNames } from './events/event.names.enum';
+import { EmailEventPublisher } from '@auth/events/publishers/sendEmail.publisher';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +26,7 @@ export class AuthService {
     @Inject(ResetTokenRepository) private readonly resetTokenRepository: IResetTokenRepository,
     @Inject(OtpTokenRepository) private readonly otpTokenRepository: IOtpTokenRepository,
     @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
-    @Inject(AuthEventPublisher) private readonly authEventPublisher: AuthEventPublisher,
+    @Inject(EmailEventPublisher) private readonly emailEventPublisher: EmailEventPublisher,
   ) {}
   async login(loginDto: LoginDto) {
     try {
@@ -99,7 +98,7 @@ export class AuthService {
       //   EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
       //   EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
       // );
-      this.authEventPublisher.publishEvent(EventNames.SEND_EMAIL, {
+      this.emailEventPublisher.publishEmailEvent({
         recipients: [existingUser['email']],
         subject: EmailSubjects.FORGOT_PASSWORD,
         html: EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
@@ -155,7 +154,7 @@ export class AuthService {
       ]);
 
       // TODO: Work on implementing queue processors for sending emails and sms
-      this.authEventPublisher.publishEvent(EventNames.SEND_EMAIL, {
+      this.emailEventPublisher.publishEmailEvent({
         recipients: [existingUser['email']],
         subject: EmailSubjects.SEND_OTP,
         html: EmailBodies.SEND_OTP(existingUser['name'], otpToken),
@@ -190,7 +189,7 @@ export class AuthService {
       ]);
 
       // TODO: Work on implementing queue processors for sending emails and sms
-      this.authEventPublisher.publishEvent(EventNames.SEND_EMAIL, {
+      this.emailEventPublisher.publishEmailEvent({
         recipients: [existingUser['email']],
         subject: EmailSubjects.VERIFY_OTP,
         html: EmailBodies.VERIFY_OTP(existingUser['name']),
