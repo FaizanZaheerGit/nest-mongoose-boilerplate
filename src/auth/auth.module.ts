@@ -12,6 +12,9 @@ import { JwtStrategy } from '@jwt/jwt.strategy';
 import { CustomJwtService } from '@jwt/jwt.service';
 import { ResetTokenRepository } from './repositories/resettoken.repository';
 import { OtpTokenRepository } from './repositories/otptokens.repository';
+import { EmailSubcriber } from '@auth/events/subscribers/sendEmail.subscriber';
+import { SmsSubcriber } from '@auth/events/subscribers/sendSms.subscriber';
+import { AuthEventPublisher } from '@auth/events/event.publisher';
 
 @Module({
   imports: [
@@ -31,7 +34,16 @@ import { OtpTokenRepository } from './repositories/otptokens.repository';
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, CustomJwtService, ResetTokenRepository, OtpTokenRepository],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    CustomJwtService,
+    ResetTokenRepository,
+    OtpTokenRepository,
+    AuthEventPublisher,
+    EmailSubcriber,
+    SmsSubcriber,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

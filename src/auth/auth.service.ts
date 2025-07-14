@@ -12,10 +12,12 @@ import { IOtpTokenRepository } from '@auth/interfaces/otptokens.repository.inter
 import { ForgotPasswordDto } from '@auth/dto/forgot-password.dto';
 import { ResetPasswordDto } from '@auth/dto/reset-password.dto';
 import { AppConfigService } from '@config/config.service';
-import { SendgridService } from '@src/sendgrid/sendgrid.service';
+// import { SendgridService } from '@src/sendgrid/sendgrid.service';
 import { EmailBodies, EmailSubjects } from '@utils/email';
 import { SendOtpDto } from '@auth/dto/send-otp.dto';
 import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
+import { AuthEventPublisher } from '@auth/events/event.publisher';
+import { EventNames } from './events/event.names.enum';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +27,7 @@ export class AuthService {
     @Inject(ResetTokenRepository) private readonly resetTokenRepository: IResetTokenRepository,
     @Inject(OtpTokenRepository) private readonly otpTokenRepository: IOtpTokenRepository,
     @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
-    @Inject(SendgridService) private readonly sendGridService: SendgridService,
+    @Inject(AuthEventPublisher) private readonly authEventPublisher: AuthEventPublisher,
   ) {}
   async login(loginDto: LoginDto) {
     try {
@@ -90,13 +92,19 @@ export class AuthService {
       await this.resetTokenRepository.createToken(existingUser['_id'], resetToken);
       const link = `${this.appConfigService.FRONTEND_URL}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
       console.log(`LINK:  ${link}`);
-      // TODO: Work on implementing event emitters and queue processors for sending emails and sms
+      // TODO: Work on implementing queue processors for sending emails and sms
       // void this.sendGridService.sendEmails(
       //   [existingUser['email']],
       //   EmailSubjects.FORGOT_PASSWORD,
       //   EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
       //   EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
       // );
+      this.authEventPublisher.publishEvent(EventNames.SEND_EMAIL, {
+        recipients: [existingUser['email']],
+        subject: EmailSubjects.FORGOT_PASSWORD,
+        html: EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
+        text: EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
+      });
 
       return {};
     } catch (error) {
@@ -145,17 +153,15 @@ export class AuthService {
         this.otpTokenRepository.updateTokensExpiryByUser(userId, true),
         this.otpTokenRepository.createToken(existingUser, otpToken),
       ]);
-      const promises = [
-        // TODO: Work on implementing event emitters and queue processors for sending emails and sms
-        // this.sendGridService.sendEmails(
-        //   [existingUser['email']],
-        //   EmailSubjects.SEND_OTP,
-        //   EmailBodies.SEND_OTP(existingUser['name'], otpToken),
-        //   EmailBodies.SEND_OTP(existingUser['name'], otpToken),
-        // ),
-      ];
-      // TODO: Add phone number to this and SMS for OTP
-      void Promise.all(promises);
+
+      // TODO: Work on implementing queue processors for sending emails and sms
+      this.authEventPublisher.publishEvent(EventNames.SEND_EMAIL, {
+        recipients: [existingUser['email']],
+        subject: EmailSubjects.SEND_OTP,
+        html: EmailBodies.SEND_OTP(existingUser['name'], otpToken),
+        text: EmailBodies.SEND_OTP(existingUser['name'], otpToken),
+      });
+
       return {};
     } catch (error) {
       console.error(`Error in Send OTP serivce:  ${error}`);
@@ -182,13 +188,16 @@ export class AuthService {
         this.usersService.updateUserStatus(userId, StatusEnums.ACTIVE),
         this.otpTokenRepository.updateTokensExpiryByUser(userId, true),
       ]);
-      // TODO: Work on implementing event emitters and queue processors for sending emails and sms
-      // void this.sendGridService.sendEmails(
-      //   [existingUser['email']],
-      //   EmailSubjects.VERIFY_OTP,
-      //   EmailBodies.VERIFY_OTP(existingUser['name']),
-      //   EmailBodies.VERIFY_OTP(existingUser['name']),
-      // );
+
+      // TODO: Work on implementing queue processors for sending emails and sms
+      this.authEventPublisher.publishEvent(EventNames.SEND_EMAIL, {
+        recipients: [existingUser['email']],
+        subject: EmailSubjects.VERIFY_OTP,
+        html: EmailBodies.VERIFY_OTP(existingUser['name']),
+        text: EmailBodies.VERIFY_OTP(existingUser['name']),
+      });
+
+      return {};
     } catch (error) {
       console.error(`Error in Verify OTP serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access

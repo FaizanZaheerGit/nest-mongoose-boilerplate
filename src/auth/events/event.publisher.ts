@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EventNames } from '@auth/events/event.names.enum';
 
+@Injectable()
 export class AuthEventPublisher {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
