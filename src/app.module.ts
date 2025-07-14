@@ -8,9 +8,11 @@ import { DbProviderModule } from '@database/provider.module';
 import { SendgridModule } from '@src/sendgrid/sendgrid.module';
 import { TwilioModule } from '@src/twilio/twilio.module';
 import { RolesModule } from '@role/roles.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot({ global: true }),
     AppConfigModule,
     AuthModule,
     DbProviderModule,
