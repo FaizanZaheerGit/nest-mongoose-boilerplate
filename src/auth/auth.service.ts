@@ -12,11 +12,12 @@ import { IOtpTokenRepository } from '@auth/interfaces/otptokens.repository.inter
 import { ForgotPasswordDto } from '@auth/dto/forgot-password.dto';
 import { ResetPasswordDto } from '@auth/dto/reset-password.dto';
 import { AppConfigService } from '@config/config.service';
-// import { SendgridService } from '@src/sendgrid/sendgrid.service';
 import { EmailBodies, EmailSubjects } from '@utils/email';
 import { SendOtpDto } from '@auth/dto/send-otp.dto';
 import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
 import { EmailEventPublisher } from '@auth/events/publishers/sendEmail.publisher';
+import { SmsEventPublisher } from '@auth/events/publishers/sendSms.publisher';
+import { SmsBodies } from '@utils/sms';
 
 @Injectable()
 export class AuthService {
@@ -27,6 +28,7 @@ export class AuthService {
     @Inject(OtpTokenRepository) private readonly otpTokenRepository: IOtpTokenRepository,
     @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
     @Inject(EmailEventPublisher) private readonly emailEventPublisher: EmailEventPublisher,
+    @Inject(SmsEventPublisher) private readonly smsEventPublisher: SmsEventPublisher,
   ) {}
   async login(loginDto: LoginDto) {
     try {
@@ -160,6 +162,13 @@ export class AuthService {
         html: EmailBodies.SEND_OTP(existingUser['name'], otpToken),
         text: EmailBodies.SEND_OTP(existingUser['name'], otpToken),
       });
+
+      if (existingUser?.phoneNumber) {
+        this.smsEventPublisher.publishSmsEvent({
+          recipients: [existingUser?.phoneNumber],
+          body: SmsBodies.SEND_OTP(otpToken),
+        });
+      }
 
       return {};
     } catch (error) {
