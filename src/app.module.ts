@@ -9,10 +9,24 @@ import { SendgridModule } from '@src/sendgrid/sendgrid.module';
 import { TwilioModule } from '@src/twilio/twilio.module';
 import { RolesModule } from '@role/roles.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
     EventEmitterModule.forRoot({ global: true }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+            colorize: true,
+            translateTime: 'SYS:standard',
+            ignore: 'pid,hostname',
+          },
+        },
+      },
+    }),
     AppConfigModule,
     AuthModule,
     DbProviderModule,

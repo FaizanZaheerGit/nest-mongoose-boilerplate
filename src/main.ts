@@ -5,9 +5,12 @@ import { GlobalExceptionHandler } from '@utils/filters/global-exception.filter';
 import { ResponseInterceptor } from '@utils/interceptors/response.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppConfigService } from '@config/config.service';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
+
+  app.useLogger(app.get(Logger));
 
   const appConfigService: AppConfigService = app.get(AppConfigService);
   const reflector: Reflector = app.get(Reflector);
@@ -29,6 +32,20 @@ async function bootstrap() {
     SwaggerModule.setup('/api/v1/docs', app, documentFactory);
   }
 
+  // const pinoLogger = new PinoLogger({
+  //   pinoHttp: {
+  //     transport: {
+  //       target: 'pino-pretty',
+  //       options: {
+  //         singleLine: true,
+  //         colorize: true,
+  //         translateTime: 'SYS:standard',
+  //         ignore: 'pid,hostname',
+  //       },
+  //     },
+  //   },
+  // });
+
   app.enableCors({
     origin: ['*'],
     credentials: true,
@@ -37,7 +54,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new GlobalExceptionHandler());
   app.useGlobalInterceptors(new ResponseInterceptor(reflector));
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(appConfigService.PORT ?? 5000);
 }
 
 void bootstrap(); // NOTE: void has been added to avoid typescript floating promises error
