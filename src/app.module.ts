@@ -10,21 +10,39 @@ import { TwilioModule } from '@src/twilio/twilio.module';
 import { RolesModule } from '@role/roles.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { LoggerModule } from 'nestjs-pino';
+import { AppConfigService } from '@config/config.service';
 
 @Module({
   imports: [
     EventEmitterModule.forRoot({ global: true }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        transport: {
-          target: 'pino-pretty',
-          options: {
-            singleLine: true,
-            colorize: true,
-            translateTime: 'SYS:standard',
-            ignore: 'pid,hostname',
-          },
-        },
+    LoggerModule.forRootAsync({
+      inject: [AppConfigService],
+      useFactory: (appConfigService: AppConfigService) => {
+        const isProd = appConfigService?.NODE_ENV.toLowerCase() == 'production' ? true : false;
+        return {
+          pinoHttp: isProd
+            ? {
+                level: 'info',
+                transport: {
+                  target: 'pino/file',
+                  options: {
+                    destination: `logs/log-${new Date().toISOString().split('T')[0]}.log`,
+                  },
+                },
+              }
+            : {
+                level: 'debug',
+                transport: {
+                  target: 'pino-pretty',
+                  options: {
+                    singeLine: true,
+                    colorize: true,
+                    translateTime: 'SYS:standard',
+                    ignore: 'pid,hostname',
+                  },
+                },
+              },
+        };
       },
     }),
     AppConfigModule,

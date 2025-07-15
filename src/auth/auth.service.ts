@@ -18,10 +18,12 @@ import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
 import { EmailEventPublisher } from '@auth/events/publishers/sendEmail.publisher';
 import { SmsEventPublisher } from '@auth/events/publishers/sendSms.publisher';
 import { SmsBodies } from '@utils/sms';
+import { PinoLogger } from 'nestjs-pino';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly pinoLogger: PinoLogger,
     @Inject(UsersService) private readonly usersService: UsersService,
     @Inject(CustomJwtService) private readonly jwtService: CustomJwtService,
     @Inject(ResetTokenRepository) private readonly resetTokenRepository: IResetTokenRepository,
@@ -29,9 +31,13 @@ export class AuthService {
     @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
     @Inject(EmailEventPublisher) private readonly emailEventPublisher: EmailEventPublisher,
     @Inject(SmsEventPublisher) private readonly smsEventPublisher: SmsEventPublisher,
-  ) {}
+  ) {
+    this.pinoLogger.setContext(AuthService.name);
+  }
+
   async login(loginDto: LoginDto) {
     try {
+      this.pinoLogger.info(`LOGIN DTO:  ${JSON.stringify(loginDto)}`);
       const { email } = loginDto;
       const existingUser = await this.usersService.getUserByEmail(email);
       if (!existingUser) {
