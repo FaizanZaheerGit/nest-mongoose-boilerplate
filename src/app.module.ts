@@ -27,6 +27,8 @@ import { AppConfigService } from '@config/config.service';
                   target: 'pino/file',
                   options: {
                     destination: `logs/log-${new Date().toISOString().split('T')[0]}.log`,
+                    mkdir: true,
+                    ignore: 'pid,hostname',
                   },
                 },
               }

@@ -97,8 +97,6 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
-This is a Boilerplate project for using Express with Typescript using Typegoose for ORM for MongoDB connection
-
-NOTE: Before running this application , create an empty folder called 'logs' inside the root outisde 'src'
+This is a Boilerplate project for using Express with Typescript using Mongoose for ORM for MongoDB connections
 
 Created By Faizan Zaheer
