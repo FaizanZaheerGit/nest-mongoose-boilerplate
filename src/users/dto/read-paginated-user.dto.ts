@@ -16,6 +16,17 @@ export class ReadPaginatedUsersDto {
   email?: string;
 
   @ApiProperty({
+    title: 'Phone Number',
+    name: 'phoneNumber',
+    description: 'This is the phone number of a user',
+    example: '+11234567890',
+    required: false,
+    type: String,
+  })
+  @IsOptional()
+  phoneNumber?: string;
+
+  @ApiProperty({
     title: 'Name',
     name: 'name',
     description: 'This is the name of a user',

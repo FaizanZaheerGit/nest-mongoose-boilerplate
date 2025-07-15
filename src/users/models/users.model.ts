@@ -15,6 +15,9 @@ export class User extends BaseModel {
   email: string;
 
   @Prop({ type: String, default: '' })
+  phoneNumber: string;
+
+  @Prop({ type: String, default: '' })
   name: string;
 
   @Prop({ type: String, required: true })
