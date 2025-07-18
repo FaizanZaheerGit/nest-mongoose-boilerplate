@@ -22,6 +22,7 @@ import { AppConfigService } from '@config/config.service';
         return {
           pinoHttp: isProd
             ? {
+                name: 'customLogger',
                 level: 'info',
                 base: null,
                 transport: {
@@ -33,6 +34,7 @@ import { AppConfigService } from '@config/config.service';
                 },
               }
             : {
+                name: 'customLogger',
                 level: 'debug',
                 transport: {
                   target: 'pino-pretty',
