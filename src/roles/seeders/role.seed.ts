@@ -1,3 +1,4 @@
+// TODO: Work on creating a separate seed service, and call it through npm script on prompts basis seed
 import { IRoleRepository } from '@role/interfaces/roles.repository.interface';
 import { roleDefaultValues } from '@role/default/role.default';
 
