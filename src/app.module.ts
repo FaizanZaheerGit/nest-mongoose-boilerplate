@@ -23,6 +23,7 @@ import { AppConfigService } from '@config/config.service';
           pinoHttp: isProd
             ? {
                 level: 'info',
+                base: null,
                 transport: {
                   target: 'pino/file',
                   options: {
