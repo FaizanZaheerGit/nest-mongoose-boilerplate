@@ -1,3 +1,4 @@
+// TODO: Work on creating a separate seed service, and call it through npm script on prompts basis seed
 import { UserTypeEnums } from '@enums/userType.enums';
 import { generateHash } from '@utils/bcrypt';
 import { IUserRepository } from '@user/interfaces/users.repository.interface';
