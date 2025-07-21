@@ -11,10 +11,12 @@ import { RolesModule } from '@role/roles.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { LoggerModule } from 'nestjs-pino';
 import { AppConfigService } from '@config/config.service';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
     EventEmitterModule.forRoot({ global: true }),
+    AppConfigModule,
     LoggerModule.forRootAsync({
       inject: [AppConfigService],
       useFactory: (appConfigService: AppConfigService) => {
@@ -49,7 +51,17 @@ import { AppConfigService } from '@config/config.service';
         };
       },
     }),
-    AppConfigModule,
+    BullModule.forRootAsync({
+      inject: [AppConfigService],
+      useFactory: (appConfigService: AppConfigService) => {
+        return {
+          connection: {
+            host: appConfigService.REDIS_HOST || 'localhost',
+            port: appConfigService.REDIS_PORT || 6379,
+          },
+        };
+      },
+    }),
     AuthModule,
     DbProviderModule,
     RolesModule,

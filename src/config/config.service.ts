@@ -67,6 +67,14 @@ export class AppConfigService {
     return this.configService.get('TWILIO_FROM_NUMBER');
   }
 
+  get REDIS_HOST(): string | undefined {
+    return this.configService.get('REDIS_HOST');
+  }
+
+  get REDIS_PORT(): number | undefined {
+    return this.configService.get('REDIS_PORT');
+  }
+
   get dbConfig(): { MONGODB_URI: string | undefined } {
     return { MONGODB_URI: this.configService.get('MONGODB_URI') };
   }

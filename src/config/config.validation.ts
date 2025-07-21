@@ -76,4 +76,15 @@ export class ConfigValidation {
   @IsString({})
   @IsDefined({ message: 'TWILIO_FROM_NUMBER is not defined in .env' })
   TWILIO_FROM_NUMBER: string;
+
+  @IsString({})
+  @IsDefined({ message: 'REDIS_HOST is not defined in .env' })
+  REDIS_HOST: string;
+
+  @Transform(({ value }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return parseInt(value, 10);
+  })
+  @IsDefined({ message: 'REDIS_PORT is not defined in .env' })
+  REDIS_PORT: number;
 }
