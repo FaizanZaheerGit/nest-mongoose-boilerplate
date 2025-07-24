@@ -3,9 +3,20 @@ import { Injectable } from '@nestjs/common';
 import { Queue } from 'bullmq';
 
 @Injectable()
-export class AuthQueues {
-  constructor(
-    @InjectQueue('email-queue') private readonly emailQueue: Queue,
-    @InjectQueue('sms-queue') private readonly smsQueue: Queue,
-  ) {}
+export class AuthQueue {
+  constructor(@InjectQueue('auth-queue') private readonly authQueue: Queue) {}
+
+  async addSendEmailJob(data: any) {
+    await this.authQueue.add('send-email', data, {
+      attempts: 5,
+      backoff: { type: 'exponential', delay: 4000 },
+    });
+  }
+
+  async addSendSmsJob(data: any) {
+    await this.authQueue.add('send-sms', data, {
+      attempts: 5,
+      backoff: { type: 'exponential', delay: 4000 },
+    });
+  }
 }

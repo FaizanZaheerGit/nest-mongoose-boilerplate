@@ -1,11 +1,11 @@
 import { OnEvent } from '@nestjs/event-emitter';
 import { EventNames } from '@auth/events/event.names.enum';
 import { Injectable, Inject } from '@nestjs/common';
-import { SendgridService } from '@src/sendgrid/sendgrid.service';
+import { AuthQueue } from '@auth/queues/queue';
 
 @Injectable()
 export class EmailEventSubcriber {
-  constructor(@Inject(SendgridService) private readonly sendGridService: SendgridService) {}
+  constructor(@Inject(AuthQueue) private readonly authQueue: AuthQueue) {}
 
   @OnEvent(EventNames.SEND_EMAIL)
   sendEmailSubcriber(payload: {
@@ -15,6 +15,6 @@ export class EmailEventSubcriber {
     text: string;
   }) {
     console.log(`PAYLOAD INSIDE EMAIL SUBSCRIBER:  ${JSON.stringify(payload)}`);
-    void this.sendGridService.sendEmails(payload);
+    void this.authQueue.addSendEmailJob(payload);
   }
 }
