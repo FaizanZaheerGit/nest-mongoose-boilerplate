@@ -94,13 +94,7 @@ export class AuthService {
       await this.resetTokenRepository.createToken(existingUser['_id'], resetToken);
       const link = `${this.appConfigService.FRONTEND_URL}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
       console.log(`LINK:  ${link}`);
-      // TODO: Work on implementing queue processors for sending emails and sms
-      // void this.sendGridService.sendEmails(
-      //   [existingUser['email']],
-      //   EmailSubjects.FORGOT_PASSWORD,
-      //   EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
-      //   EmailBodies.FORGOT_PASSWORD(existingUser['name'], link),
-      // );
+
       this.emailEventPublisher.publishEmailEvent({
         recipients: [existingUser['email']],
         subject: EmailSubjects.FORGOT_PASSWORD,
@@ -156,7 +150,6 @@ export class AuthService {
         this.otpTokenRepository.createToken(existingUser, otpToken),
       ]);
 
-      // TODO: Work on implementing queue processors for sending emails and sms
       this.emailEventPublisher.publishEmailEvent({
         recipients: [existingUser['email']],
         subject: EmailSubjects.SEND_OTP,
@@ -198,7 +191,6 @@ export class AuthService {
         this.otpTokenRepository.updateTokensExpiryByUser(userId, true),
       ]);
 
-      // TODO: Work on implementing queue processors for sending emails and sms
       this.emailEventPublisher.publishEmailEvent({
         recipients: [existingUser['email']],
         subject: EmailSubjects.VERIFY_OTP,

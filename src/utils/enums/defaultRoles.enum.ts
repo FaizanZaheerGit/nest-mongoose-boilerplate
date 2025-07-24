@@ -1,4 +1,5 @@
 export enum DefaultRoleEnums {
+  // Super Admins
   ADMINISTRATOR = 'administrator',
 
   // User Module

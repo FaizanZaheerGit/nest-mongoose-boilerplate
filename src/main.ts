@@ -35,20 +35,6 @@ async function bootstrap() {
     SwaggerModule.setup('/api/v1/docs', app, documentFactory);
   }
 
-  // const pinoLogger = new PinoLogger({
-  //   pinoHttp: {
-  //     transport: {
-  //       target: 'pino-pretty',
-  //       options: {
-  //         singleLine: true,
-  //         colorize: true,
-  //         translateTime: 'SYS:standard',
-  //         ignore: 'pid,hostname',
-  //       },
-  //     },
-  //   },
-  // });
-
   app.enableCors({
     origin: ['*'],
     credentials: true,
