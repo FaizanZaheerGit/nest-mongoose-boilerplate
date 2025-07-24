@@ -68,11 +68,19 @@ export class AppConfigService {
   }
 
   get REDIS_HOST(): string | undefined {
-    return this.configService.get('REDIS_HOST');
+    return this.configService.get('REDIS_HOST') || 'localhost';
   }
 
   get REDIS_PORT(): number | undefined {
-    return this.configService.get('REDIS_PORT');
+    return this.configService.get('REDIS_PORT') || 6379;
+  }
+
+  get REDIS_USERNAME(): string | undefined {
+    return this.configService.get('REDIS_USERNAME') || 'default';
+  }
+
+  get REDIS_PASSWORD(): number | '' {
+    return this.configService.get('REDIS_PASSWORD') || '';
   }
 
   get dbConfig(): { MONGODB_URI: string | undefined } {
@@ -110,6 +118,20 @@ export class AppConfigService {
       TWILIO_ACCOUNT_SID: this.configService.get('TWILIO_ACCOUNT_SID'),
       TWILIO_AUTH_TOKEN: this.configService.get('TWILIO_AUTH_TOKEN'),
       TWILIO_FROM_NUMBER: this.configService.get('TWILIO_FROM_NUMBER'),
+    };
+  }
+
+  getRedisConfig(): {
+    host: string | undefined;
+    port: number | undefined;
+    username: string | undefined;
+    password: string | undefined;
+  } {
+    return {
+      host: this.configService.get('REDIS_HOST'),
+      port: this.configService.get('REDIS_PORT'),
+      username: this.configService.get('REDIS_USERNAME'),
+      password: this.configService.get('REDIS_PASSWORD'),
     };
   }
 }

@@ -87,4 +87,12 @@ export class ConfigValidation {
   })
   @IsDefined({ message: 'REDIS_PORT is not defined in .env' })
   REDIS_PORT: number;
+
+  @IsString({})
+  @IsDefined({ message: 'REDIS_USERNAME is not defined in .env' })
+  REDIS_USERNAME: string;
+
+  @IsString({})
+  @IsDefined({ message: 'REDIS_PASSWORD is not defined in .env' })
+  REDIS_PASSWORD: string;
 }

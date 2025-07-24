@@ -16,6 +16,7 @@ import { EmailEventPublisher } from '@auth/events/publishers/sendEmail.publisher
 import { SmsEventPublisher } from '@auth/events/publishers/sendSms.publisher';
 import { EmailEventSubcriber } from '@auth/events/subscribers/sendEmail.subscriber';
 import { SmsEventSubcriber } from '@auth/events/subscribers/sendSms.subscriber';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
@@ -32,6 +33,12 @@ import { SmsEventSubcriber } from '@auth/events/subscribers/sendSms.subscriber';
       { name: OtpToken.name, schema: OtpTokenSchema },
       { name: ResetToken.name, schema: ResetTokenSchema },
     ]),
+    BullModule.registerQueue({
+      name: 'email-queue',
+    }),
+    BullModule.registerQueue({
+      name: 'sms-queue',
+    }),
     UsersModule,
   ],
   controllers: [AuthController],
