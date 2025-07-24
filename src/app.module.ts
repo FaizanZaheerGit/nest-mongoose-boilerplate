@@ -56,8 +56,8 @@ import { BullModule } from '@nestjs/bullmq';
       useFactory: (appConfigService: AppConfigService) => {
         return {
           connection: {
-            host: appConfigService.REDIS_HOST || 'localhost',
-            port: appConfigService.REDIS_PORT || 6379,
+            host: appConfigService.REDIS_HOST,
+            port: appConfigService.REDIS_PORT,
           },
         };
       },
