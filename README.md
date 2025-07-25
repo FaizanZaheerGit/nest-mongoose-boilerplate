@@ -17,15 +17,26 @@
   <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
     <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
   <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+</p><br />
 
-## Description
+<div style="width:600px;height:360px;border:4px solid black;border-radius:20px;background-color: cyan;">
+    <p style="margin-left:158px;font-size:20px;">CREATED BY: &nbsp; FAIZAN ZAHEER</p>
+    <p style="margin-left:16px;">Description : - This is an efficient and highly scalable Nest JS boilerplate built with Typescript, Mongoose ORM for MongoDB Connections and follows repository pattern.</p>
+    <p style="margin-left:16px;">This Boilerplate includes the following :&nbsp;-</p>
+    <ol style="margin-left: 20px;">
+        <li>Mongoose ORM</li>
+        <li>Repository Pattern</li>
+        <li>JWT Authentication with Passport</li>
+        <li>Seeder function using cli prompts</li>
+        <li>Email & SMS Sending</li>
+        <li>Custom Logger Service using Pino</li>
+        <li>Event Emitter Publisher and Subscriber</li>
+        <li>Bull Queues Setup</li>
+        <li>Redis Caching mchanism setup</li>
+        <li>Graceful Shutdown Mechanism</li>
+    </ol>
+</div><br /><br />
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
 
 ```bash
 $ pnpm install
@@ -96,7 +107,3 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-
-This is a Boilerplate project for using Express with Typescript using Mongoose for ORM for MongoDB connections
-
-Created By Faizan Zaheer
