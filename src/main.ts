@@ -9,6 +9,7 @@ import { Logger } from 'nestjs-pino';
 
 // TODO: Implement graceful shutdown
 // TODO: Remove all console logs and replace with pino logger
+// TODO: Implement Redis Caching mecahnism
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
