@@ -20,7 +20,25 @@ import { BullModule } from '@nestjs/bullmq';
 import { AuthQueue } from '@auth/queues/queue';
 import { AuthProcessor } from '@auth/queues/processor';
 
-// TODO: Try Lazy Loading Modules to see how it affects performance and start up time
+/* TODO: Try Lazy Loading Modules to see how it affects performance and start up time
+
+e.g. below
+export class AdminModule implements NestModule {  
+  configure(consumer: MiddlewareConsumer) {  
+    consumer.apply(DynamicModuleLoader).forRoutes('admin/*');  
+  }  
+}  
+
+// DynamicModuleLoader.ts  
+async function DynamicModuleLoader(req, res, next) {  
+  if (!this.adminModule) {  
+    const { AdminModule } = await import('./admin.module');  
+    this.adminModule = await this.moduleRef.create(AdminModule);  
+  }  
+  next();  
+}
+*/
+
 @Module({
   imports: [
     PassportModule,

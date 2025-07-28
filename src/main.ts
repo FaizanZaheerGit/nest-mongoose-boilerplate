@@ -10,6 +10,7 @@ import { Logger } from 'nestjs-pino';
 // TODO: Implement graceful shutdown
 // TODO: Remove all console logs and replace with pino logger
 // TODO: Implement Redis Caching mecahnism (if needed)
+// TODO: Try Lazy Loading Modules to see how it affects performance and start up time
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
