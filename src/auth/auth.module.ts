@@ -20,6 +20,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { AuthQueue } from '@auth/queues/queue';
 import { AuthProcessor } from '@auth/queues/processor';
 
+// TODO: Try Lazy Loading Modules to see how it affects performance and start up time
 @Module({
   imports: [
     PassportModule,
