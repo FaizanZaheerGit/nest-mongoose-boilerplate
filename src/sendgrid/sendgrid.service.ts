@@ -3,6 +3,8 @@ import { AppConfigService } from '@config/config.service';
 import { Inject, Injectable } from '@nestjs/common';
 import * as sgMail from '@sendgrid/mail';
 
+// TODO: Replace Send Grid Servie with Generic Mailer Service to send e-mail from any SMTP
+
 @Injectable()
 export class SendgridService {
   private sendGridFromEmail: string;
