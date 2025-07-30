@@ -30,6 +30,6 @@ export class AppService implements OnApplicationShutdown {
     this.logger.warn(`Closing ${this.authQueue.name} Bull MQ...`);
     await this.authQueue.close();
     this.logger.info(`${this.authQueue.name} Bull MQ Closed Successfully...`);
-    process.exit(1);
+    process.exit(0);
   }
 }
