@@ -7,7 +7,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppConfigService } from '@config/config.service';
 import { Logger } from 'nestjs-pino';
 
-// TODO: Implement proper healthcheck with terminus
 // TODO: Implement graceful shutdown
 // TODO: Replace Send Grid Items with Generic Mailer Items to send e-mail from any SMTP
 // TODO: Implement Redis Caching mecahnism (if needed)
