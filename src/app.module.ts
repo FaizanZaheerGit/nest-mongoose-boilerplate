@@ -60,6 +60,9 @@ import { HealthModule } from '@health/health.module';
         };
       },
     }),
+    BullModule.registerQueue({
+      name: 'auth-queue',
+    }),
     AuthModule,
     DbProviderModule,
     HealthModule,

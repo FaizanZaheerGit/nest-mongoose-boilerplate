@@ -7,7 +7,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppConfigService } from '@config/config.service';
 import { Logger } from 'nestjs-pino';
 
-// TODO: Implement graceful shutdown
 // TODO: Replace Send Grid Items with Generic Mailer Items to send e-mail from any SMTP
 // TODO: Implement Redis Caching mecahnism (if needed)
 // TODO: Try Lazy Loading Modules to see how it affects performance and start up time
@@ -45,6 +44,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new GlobalExceptionHandler());
   app.useGlobalInterceptors(new ResponseInterceptor(reflector));
+  app.enableShutdownHooks();
   await app.listen(appConfigService.PORT ?? 5000);
 }
 
