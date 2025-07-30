@@ -12,6 +12,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { LoggerModule } from 'nestjs-pino';
 import { AppConfigService } from '@config/config.service';
 import { BullModule } from '@nestjs/bullmq';
+import { HealthModule } from '@health/health.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { BullModule } from '@nestjs/bullmq';
     }),
     AuthModule,
     DbProviderModule,
+    HealthModule,
     RolesModule,
     SendgridModule,
     TwilioModule,

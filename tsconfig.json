@@ -22,6 +22,7 @@
       "@config/*": ["./src/config/*"],
       "@database/*": ["./src/database/*"],
       "@decorators/*": ["./src/utils/decorators/*"],
+      "@health/*": ["./src/health/*"],
       "@enums/*": ["./src/utils/enums/*"],
       "@events/*": ["./src/utils/events/*"],
       "@filters/*": ["./src/utils/filters/*"],

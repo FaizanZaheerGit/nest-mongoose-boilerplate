@@ -34,6 +34,7 @@
     "repl-test": "nest start --entryFile repl"
   },
   "dependencies": {
+    "@nestjs/axios": "^4.0.1",
     "@nestjs/bull": "^11.0.2",
     "@nestjs/bullmq": "^11.0.2",
     "@nestjs/common": "^11.0.1",
@@ -45,6 +46,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.1.4",
+    "@nestjs/terminus": "^11.0.0",
     "@sendgrid/mail": "^8.1.5",
     "bcryptjs": "^3.0.2",
     "bullmq": "^5.56.5",
