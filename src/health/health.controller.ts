@@ -6,6 +6,8 @@ import {
   MongooseHealthIndicator,
 } from '@nestjs/terminus';
 
+// TODO: Implement Custom Redis Health Checker
+
 @Controller('/health')
 export class HealthController {
   constructor(

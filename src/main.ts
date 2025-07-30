@@ -41,7 +41,7 @@ async function bootstrap() {
     origin: ['*'],
     credentials: true,
   });
-  app.setGlobalPrefix('/api/v1', { exclude: ['/'] });
+  app.setGlobalPrefix('/api/v1', { exclude: ['/', '/health'] });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new GlobalExceptionHandler());
   app.useGlobalInterceptors(new ResponseInterceptor(reflector));
