@@ -18,6 +18,7 @@ import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
 import { EmailEventPublisher } from '@auth/events/publishers/sendEmail.publisher';
 import { SmsEventPublisher } from '@auth/events/publishers/sendSms.publisher';
 import { SmsBodies } from '@utils/sms';
+import { PinoLogger } from 'nestjs-pino';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,10 @@ export class AuthService {
     @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
     @Inject(EmailEventPublisher) private readonly emailEventPublisher: EmailEventPublisher,
     @Inject(SmsEventPublisher) private readonly smsEventPublisher: SmsEventPublisher,
-  ) {}
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(AuthService.name);
+  }
 
   async login(loginDto: LoginDto) {
     try {
@@ -64,7 +68,7 @@ export class AuthService {
       delete existingUser?.password;
       return { entity: existingUser, token: accessToken };
     } catch (error) {
-      console.log(`Error in Login Service:  ${error}`);
+      this.logger.error(`Error in Login Service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -74,7 +78,7 @@ export class AuthService {
     try {
       return {};
     } catch (error) {
-      console.error(`Error in Logout serivce:  ${error}`);
+      this.logger.error(`Error in Logout serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -93,7 +97,6 @@ export class AuthService {
       const resetToken = uuidV4();
       await this.resetTokenRepository.createToken(existingUser['_id'], resetToken);
       const link = `${this.appConfigService.FRONTEND_URL}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
-      console.log(`LINK:  ${link}`);
 
       this.emailEventPublisher.publishEmailEvent({
         recipients: [existingUser['email']],
@@ -104,7 +107,7 @@ export class AuthService {
 
       return {};
     } catch (error) {
-      console.error(`Error in Forgot Password serivce:  ${error}`);
+      this.logger.error(`Error in Forgot Password serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -128,7 +131,7 @@ export class AuthService {
       ]);
       return {};
     } catch (error) {
-      console.error(`Error in Reset Password serivce:  ${error}`);
+      this.logger.error(`Error in Reset Password serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -166,7 +169,7 @@ export class AuthService {
 
       return {};
     } catch (error) {
-      console.error(`Error in Send OTP serivce:  ${error}`);
+      this.logger.error(`Error in Send OTP serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -200,7 +203,7 @@ export class AuthService {
 
       return {};
     } catch (error) {
-      console.error(`Error in Verify OTP serivce:  ${error}`);
+      this.logger.error(`Error in Verify OTP serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

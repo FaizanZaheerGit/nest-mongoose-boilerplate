@@ -10,6 +10,7 @@ import { ReadUsersDto } from '@user/dto/read-user.dto';
 import { ReadPaginatedUsersDto } from '@user/dto/read-paginated-user.dto';
 import { UpdateUserDto } from '@user/dto/update-user.dto';
 import { User } from '@user/models/users.model';
+import { PinoLogger } from 'nestjs-pino';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -17,7 +18,10 @@ export class UsersService implements OnModuleInit {
     @Inject(UserRepository) private readonly userRepository: IUserRepository,
     @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
     @Inject(RolesService) private readonly roleService: RolesService,
-  ) {}
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(UsersService.name);
+  }
 
   async onModuleInit() {
     const adminDeatils = this.appConfigService.adminConfig;
@@ -28,7 +32,7 @@ export class UsersService implements OnModuleInit {
     try {
       return await this.userRepository.getUserByEmail(email);
     } catch (error) {
-      console.log(`Error in User Service get User by Email:  ${error}`);
+      this.logger.error(`Error in User Service get User by Email:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -38,7 +42,7 @@ export class UsersService implements OnModuleInit {
     try {
       return await this.userRepository.getUserById(id);
     } catch (error) {
-      console.log(`Error in User Service get User by Id:  ${error}`);
+      this.logger.error(`Error in User Service get User by Id:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -68,18 +72,7 @@ export class UsersService implements OnModuleInit {
       });
       return { entity: newUser };
     } catch (error) {
-      console.error(`Error in create user service:  =>  ${error}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  async readAllUsers(readUsersDto: ReadUsersDto) {
-    try {
-      const users = await this.userRepository.getUsers(readUsersDto);
-      return { entities: users };
-    } catch (error) {
-      console.error(`Error in get users service:  =>  ${error}`);
+      this.logger.error(`Error in create user service:  =>  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -87,6 +80,7 @@ export class UsersService implements OnModuleInit {
 
   async readCursorBasedUsers(readUsersDto: ReadUsersDto) {
     try {
+      this.logger.info(`Test Log`);
       const { cursor, limit, ...filterQuery } = readUsersDto;
 
       // TODO: remove this and handle DTO and Validation Pipe properly to avoid undefined values
@@ -108,7 +102,7 @@ export class UsersService implements OnModuleInit {
       const nextCursor = hasNext ? users[users.length - 1]._id : null;
       return { entities: users, hasNext, nextCursor };
     } catch (error) {
-      console.error(`Error in get cursor based users service:  =>  ${error}`);
+      this.logger.error(`Error in get cursor based users service:  =>  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -136,7 +130,7 @@ export class UsersService implements OnModuleInit {
         meta: { currentPage: page, hasNext, pageSize: limit, totalCount, totalPages },
       };
     } catch (error) {
-      console.error(`Error in read paginated users service:  ${error}`);
+      this.logger.error(`Error in read paginated users service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -146,7 +140,7 @@ export class UsersService implements OnModuleInit {
     try {
       return { user: currentUser };
     } catch (error) {
-      console.error(`Error in read current user details:  ${error}`);
+      this.logger.error(`Error in read current user details:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -160,7 +154,7 @@ export class UsersService implements OnModuleInit {
       }
       return { entity: existingUser };
     } catch (error) {
-      console.error(`Error in read user by id service:  ${error}`);
+      this.logger.error(`Error in read user by id service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -175,7 +169,7 @@ export class UsersService implements OnModuleInit {
       await this.userRepository.updateUserById(id, updateUserDto);
       return {};
     } catch (error) {
-      console.error(`Error in update user service:  ${error}`);
+      this.logger.error(`Error in update user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -190,7 +184,7 @@ export class UsersService implements OnModuleInit {
       await this.userRepository.updateUserById(id, { status });
       return {};
     } catch (error) {
-      console.error(`Error in update user service:  ${error}`);
+      this.logger.error(`Error in update user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -204,7 +198,7 @@ export class UsersService implements OnModuleInit {
       }
       return await this.userRepository.updateUserById(id, { password: newPassword });
     } catch (error) {
-      console.error(`Error in update user service:  ${error}`);
+      this.logger.error(`Error in update user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -219,7 +213,7 @@ export class UsersService implements OnModuleInit {
       await this.userRepository.updateUserById(id, { status: StatusEnums.DELETED });
       return {};
     } catch (error) {
-      console.error(`Error in delete user service:  ${error}`);
+      this.logger.error(`Error in delete user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

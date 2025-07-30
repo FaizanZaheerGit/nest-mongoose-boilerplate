@@ -1,14 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { AppConfigService } from '@config/config.service';
 import { Inject, Injectable } from '@nestjs/common';
+import { PinoLogger } from 'nestjs-pino';
 import * as twilio from 'twilio';
 
 @Injectable()
 export class TwilioService {
   private twilioClient: twilio.Twilio;
-  constructor(@Inject(AppConfigService) private readonly appConfigService: AppConfigService) {
+  constructor(
+    @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
+    private readonly logger: PinoLogger,
+  ) {
     const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = this.appConfigService.twilioConfig;
     this.twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+    this.logger.setContext(TwilioService.name);
   }
 
   sendBulkSms = async (payload: { recipients: string[]; body: string }): Promise<boolean> => {
@@ -22,11 +27,11 @@ export class TwilioService {
             body,
           })
           .then((res) => {
-            console.log(`SMS sent to ${to} | SID: ${res.sid}`);
+            this.logger.info(`SMS sent to ${to} | SID: ${res.sid}`);
             return true;
           })
           .catch((err) => {
-            console.error(`Failed to send SMS to ${to} | Error: ${err.message}`);
+            this.logger.error(`Failed to send SMS to ${to} | Error: ${err.message}`);
             return false;
           }),
       );
@@ -34,10 +39,10 @@ export class TwilioService {
       const results = await Promise.all(sendPromises);
       const successCount = results.filter((r) => r).length;
 
-      console.log(`${successCount}/${recipients.length} SMS messages sent successfully.`);
+      this.logger.info(`${successCount}/${recipients.length} SMS messages sent successfully.`);
       return successCount === recipients.length;
     } catch (error) {
-      console.error(`Unexpected error in sendBulkSms: ${error}`);
+      this.logger.error(`Unexpected error in sendBulkSms: ${error}`);
       return false;
     }
   };

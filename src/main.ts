@@ -9,7 +9,6 @@ import { Logger } from 'nestjs-pino';
 
 // TODO: Implement proper healthcheck with terminus
 // TODO: Implement graceful shutdown
-// TODO: Remove all console logs and replace with pino logger
 // TODO: Replace Send Grid Items with Generic Mailer Items to send e-mail from any SMTP
 // TODO: Implement Redis Caching mecahnism (if needed)
 // TODO: Try Lazy Loading Modules to see how it affects performance and start up time

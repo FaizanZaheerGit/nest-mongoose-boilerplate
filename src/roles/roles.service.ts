@@ -8,10 +8,16 @@ import { UpdateRoleDto } from '@role/dto/update-role.dto';
 import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
 import { StatusEnums } from '@enums/status.enums';
 import { seedDefaultRoles } from '@role/seeders/role.seed';
+import { PinoLogger } from 'nestjs-pino';
 
 @Injectable()
 export class RolesService implements OnModuleInit {
-  constructor(@Inject(RoleRepository) private readonly roleRepository: IRoleRepository) {}
+  constructor(
+    @Inject(RoleRepository) private readonly roleRepository: IRoleRepository,
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(RolesService.name);
+  }
 
   async onModuleInit() {
     await seedDefaultRoles(this.roleRepository);
@@ -21,7 +27,7 @@ export class RolesService implements OnModuleInit {
     try {
       return await this.roleRepository.getRoleByIds(ids);
     } catch (error) {
-      console.error(`Error in get role by ids service:  ${error}`);
+      this.logger.error(`Error in get role by ids service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -37,7 +43,7 @@ export class RolesService implements OnModuleInit {
       const newRole = await this.roleRepository.create(createRoleDto);
       return { entity: newRole };
     } catch (error) {
-      console.error(`Error in create role service:  ${error}`);
+      this.logger.error(`Error in create role service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -75,7 +81,7 @@ export class RolesService implements OnModuleInit {
       const nextCursor = hasNext ? roles[roles.length - 1]._id : null;
       return { entities: roles, hasNext, nextCursor };
     } catch (error) {
-      console.error(`Error in read cursor based roles service:  ${error}`);
+      this.logger.error(`Error in read cursor based roles service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -103,7 +109,7 @@ export class RolesService implements OnModuleInit {
         meta: { currentPage: page, hasNext, pageSize: limit, totalCount, totalPages },
       };
     } catch (error) {
-      console.error(`Error in read paginated roles service:  ${error}`);
+      this.logger.error(`Error in read paginated roles service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -117,7 +123,7 @@ export class RolesService implements OnModuleInit {
       }
       return { entity: existingRole };
     } catch (error) {
-      console.error(`Error in read role by id service:  ${error}`);
+      this.logger.error(`Error in read role by id service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -142,7 +148,7 @@ export class RolesService implements OnModuleInit {
       await this.roleRepository.updateRoleById(id, updateRoleDto);
       return {};
     } catch (error) {
-      console.error(`Error in update role service:  ${error}`);
+      this.logger.error(`Error in update role service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -161,7 +167,7 @@ export class RolesService implements OnModuleInit {
       await this.roleRepository.updateRoleById(id, { status: StatusEnums.DELETED });
       return {};
     } catch (error) {
-      console.error(`Error in delete role service:  ${error}`);
+      this.logger.error(`Error in delete role service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
