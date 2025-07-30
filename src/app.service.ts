@@ -21,6 +21,8 @@ export class AppService implements OnApplicationShutdown {
   }
 
   async cleanShutdown() {
+    // NOTE: For any other connections or bull queues add them here to close them cleanly
+
     this.logger.info('Intiating Clean Shutdown...');
     this.logger.warn('Closing Mongoose Connection...');
     await mongoose.connection.close();
