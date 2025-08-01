@@ -18,8 +18,6 @@ import { VerifyOtpDto } from '@auth/dto/verify-otp.dto';
 import { ResponseMessage } from '@src/utils/decorators/responseMessage.decorator';
 import { JwtAuthGuard } from '@auth/guards/auth.guard';
 
-// TODO: Add rate limiting to un-authenticated APIs
-
 @Controller('auth')
 @ApiTags('Auth Module')
 export class AuthController {
