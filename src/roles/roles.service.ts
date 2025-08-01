@@ -7,7 +7,6 @@ import { ReadPaginatedRolesDto } from '@role/dto/read-paginated-role';
 import { UpdateRoleDto } from '@role/dto/update-role.dto';
 import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
 import { StatusEnums } from '@enums/status.enums';
-// import { seedDefaultRoles } from '@role/seeders/role.seed';
 import { PinoLogger } from 'nestjs-pino';
 
 @Injectable()
@@ -18,10 +17,6 @@ export class RolesService {
   ) {
     this.logger.setContext(RolesService.name);
   }
-
-  // async onModuleInit() {
-  //   await seedDefaultRoles(this.roleRepository);
-  // }
 
   async getRoleByIds(ids: string[]) {
     try {
