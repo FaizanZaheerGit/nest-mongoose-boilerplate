@@ -13,6 +13,8 @@ import { LoggerModule } from 'nestjs-pino';
 import { AppConfigService } from '@config/config.service';
 import { BullModule } from '@nestjs/bullmq';
 import { HealthModule } from '@health/health.module';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -68,10 +70,14 @@ import { HealthModule } from '@health/health.module';
     HealthModule,
     RolesModule,
     SendgridModule,
+    ThrottlerModule.forRoot({
+      throttlers: [{ limit: 200, ttl: 300 }],
+      errorMessage: `Too Many Requests`,
+    }),
     TwilioModule,
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}
