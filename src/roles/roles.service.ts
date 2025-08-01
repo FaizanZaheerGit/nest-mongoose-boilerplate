@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { RoleRepository } from '@role/repositories/roles.repository';
 import { IRoleRepository } from '@role/interfaces/roles.repository.interface';
 import { CreateRoleDto } from '@role/dto/create-role.dto';
@@ -7,11 +7,11 @@ import { ReadPaginatedRolesDto } from '@role/dto/read-paginated-role';
 import { UpdateRoleDto } from '@role/dto/update-role.dto';
 import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
 import { StatusEnums } from '@enums/status.enums';
-import { seedDefaultRoles } from '@role/seeders/role.seed';
+// import { seedDefaultRoles } from '@role/seeders/role.seed';
 import { PinoLogger } from 'nestjs-pino';
 
 @Injectable()
-export class RolesService implements OnModuleInit {
+export class RolesService {
   constructor(
     @Inject(RoleRepository) private readonly roleRepository: IRoleRepository,
     private readonly logger: PinoLogger,
@@ -19,9 +19,9 @@ export class RolesService implements OnModuleInit {
     this.logger.setContext(RolesService.name);
   }
 
-  async onModuleInit() {
-    await seedDefaultRoles(this.roleRepository);
-  }
+  // async onModuleInit() {
+  //   await seedDefaultRoles(this.roleRepository);
+  // }
 
   async getRoleByIds(ids: string[]) {
     try {

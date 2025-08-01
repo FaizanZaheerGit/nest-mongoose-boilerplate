@@ -11,6 +11,6 @@ import { RolesModule } from '@role/roles.module';
   imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]), RolesModule],
   controllers: [UsersController],
   providers: [UsersService, UserRepository],
-  exports: [UsersService],
+  exports: [UsersService, UserRepository],
 })
 export class UsersModule {}

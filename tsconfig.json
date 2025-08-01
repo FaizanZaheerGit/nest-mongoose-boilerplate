@@ -29,6 +29,7 @@
       "@interceptors/*": ["./src/utils/interceptors/*"],
       "@jwt/*": ["./src/auth/jwt/*"],
       "@role/*": ["./src/roles/*"],
+      "@seeder/*": ["./src/seeders/*"],
       "@src/*": ["./src/*"],
       "@user/*": ["./src/users/*"],
       "@utils/*": ["./src/utils/*"],

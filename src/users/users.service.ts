@@ -1,8 +1,8 @@
-import { HttpException, HttpStatus, Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UserRepository } from '@user/repositories/users.repository';
 import { IUserRepository } from '@user/interfaces/users.repository.interface';
-import { AppConfigService } from '@config/config.service';
-import { seedFirstAdminUser } from '@user/seeders/user.seed';
+// import { AppConfigService } from '@config/config.service';
+// import { seedFirstAdminUser } from '@user/seeders/user.seed';
 import { RolesService } from '@role/roles.service';
 import { CreateUserDto } from '@user/dto/create-user.dto';
 import { StatusEnums } from '@enums/status.enums';
@@ -13,20 +13,20 @@ import { User } from '@user/models/users.model';
 import { PinoLogger } from 'nestjs-pino';
 
 @Injectable()
-export class UsersService implements OnModuleInit {
+export class UsersService {
   constructor(
     @Inject(UserRepository) private readonly userRepository: IUserRepository,
-    @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
+    // @Inject(AppConfigService) private readonly appConfigService: AppConfigService,
     @Inject(RolesService) private readonly roleService: RolesService,
     private readonly logger: PinoLogger,
   ) {
     this.logger.setContext(UsersService.name);
   }
 
-  async onModuleInit() {
-    const adminDeatils = this.appConfigService.adminConfig;
-    await seedFirstAdminUser(this.userRepository, adminDeatils);
-  }
+  // async onModuleInit() {
+  //   const adminDeatils = this.appConfigService.adminConfig;
+  //   await seedFirstAdminUser(this.userRepository, adminDeatils);
+  // }
 
   async getUserByEmail(email: string) {
     try {

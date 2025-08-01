@@ -10,6 +10,6 @@ import { RoleRepository } from './repositories/roles.repository';
   imports: [MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }])],
   controllers: [RolesController],
   providers: [RolesService, RoleRepository],
-  exports: [RolesService],
+  exports: [RolesService, RoleRepository],
 })
 export class RolesModule {}
