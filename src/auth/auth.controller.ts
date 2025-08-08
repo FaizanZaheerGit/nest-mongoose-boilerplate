@@ -26,7 +26,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @ResponseMessage('SUCCESS')
-  @Throttle({ default: { limit: 15, ttl: 60 } })
+  @Throttle({ default: { limit: 15, ttl: 60 } }) // TODO: Test if this throttle is working properly or not
   @Post('/login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
@@ -42,28 +42,28 @@ export class AuthController {
   }
 
   @ResponseMessage('Reset Password E-mail Sent Successfully')
-  @Throttle({ default: { limit: 15, ttl: 60 } })
+  @Throttle({ default: { limit: 15, ttl: 60 } }) // TODO: Test if this throttle is working properly or not
   @Post('/forgot-password')
   forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     return this.authService.forgotPassword(forgotPasswordDto);
   }
 
   @ResponseMessage('Password Reset Successfully')
-  @Throttle({ default: { limit: 15, ttl: 60 } })
+  @Throttle({ default: { limit: 15, ttl: 60 } }) // TODO: Test if this throttle is working properly or not
   @Patch('/reset-password')
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.authService.resetPassword(resetPasswordDto);
   }
 
   @ResponseMessage('OTP Sent Successfully')
-  @ApiBearerAuth()
+  @Throttle({ default: { limit: 15, ttl: 60 } }) // TODO: Test if this throttle is working properly or not
   @Post('/send-otp')
   sendOtp(@Body() sendOtpDto: SendOtpDto) {
     return this.authService.sendOtp(sendOtpDto);
   }
 
   @ResponseMessage('OTP Verified Successfully')
-  @Throttle({ default: { limit: 15, ttl: 60 } })
+  @Throttle({ default: { limit: 15, ttl: 60 } }) // TODO: Test if this throttle is working properly or not
   @Patch('/verify-otp')
   verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
     return this.authService.verifyOtp(verifyOtpDto);

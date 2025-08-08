@@ -69,8 +69,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     DbProviderModule,
     HealthModule,
     RolesModule,
-    // SeederModule, // NOTE: Unneeded Module
     SendgridModule,
+    // TODO: Test if below Throttler Module functioning as expected
     ThrottlerModule.forRoot({
       throttlers: [{ limit: 200, ttl: 300 }],
       errorMessage: `Too Many Requests`,
