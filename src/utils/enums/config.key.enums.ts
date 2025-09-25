@@ -3,6 +3,6 @@ export enum AppConfigKeys {
   DB = 'db',
   AUTH = 'auth',
   ADMIN = 'admin',
-  SENDGRID = 'sendGrid',
+  MAIL = 'mail',
   TWILIO = 'twilio',
 }

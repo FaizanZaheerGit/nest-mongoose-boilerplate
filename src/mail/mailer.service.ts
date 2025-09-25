@@ -2,11 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { MailerService } from '@nestjs-modules/mailer';
 
-// TODO: Replace Send Grid Servie with Generic Mailer Service to send e-mail from any SMTP
-
 @Injectable()
 export class MailService {
-  private sendGridFromEmail: string;
   constructor(
     @Inject(MailerService) private readonly mailerService: MailerService,
     private readonly logger: PinoLogger,
