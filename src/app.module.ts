@@ -5,7 +5,7 @@ import { UsersModule } from '@user/users.module';
 import { AuthModule } from '@auth/auth.module';
 import { AppConfigModule } from '@config/config.module';
 import { DbProviderModule } from '@database/provider.module';
-import { SendgridModule } from '@src/sendgrid/sendgrid.module';
+import { MailModule } from '@src/mail/mailer.module';
 import { TwilioModule } from '@src/twilio/twilio.module';
 import { RolesModule } from '@role/roles.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
@@ -69,7 +69,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     DbProviderModule,
     HealthModule,
     RolesModule,
-    SendgridModule,
+    MailModule,
     // TODO: Test if below Throttler Module functioning as expected
     ThrottlerModule.forRoot({
       throttlers: [{ limit: 200, ttl: 300 }],

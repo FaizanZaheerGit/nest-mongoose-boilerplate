@@ -1,6 +1,6 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Inject } from '@nestjs/common';
-import { SendgridService } from '@src/sendgrid/sendgrid.service';
+import { MailService } from '@src/mail/mailer.service';
 import { TwilioService } from '@src/twilio/twilio.service';
 import { Job } from 'bullmq';
 import { PinoLogger } from 'nestjs-pino';
@@ -8,7 +8,7 @@ import { PinoLogger } from 'nestjs-pino';
 @Processor('auth-queue')
 export class AuthProcessor extends WorkerHost {
   constructor(
-    @Inject(SendgridService) private readonly sendGridService: SendgridService,
+    @Inject(MailService) private readonly mailService: MailService,
     @Inject(TwilioService) private readonly twilioService: TwilioService,
     private readonly logger: PinoLogger,
   ) {
@@ -33,7 +33,7 @@ export class AuthProcessor extends WorkerHost {
         `SEND EMAIL Processor  =>  ID:  ${job?.id},  DATA:  ${JSON.stringify(job?.data)}`,
       );
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      await this.sendGridService.sendEmails(job?.data);
+      await this.mailService.sendEmails(job?.data);
     } catch (error) {
       this.logger.error(`Error in send email processor:  ${error}`);
     }

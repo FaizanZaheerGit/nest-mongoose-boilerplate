@@ -57,13 +57,37 @@ export class ConfigValidation {
   @IsDefined({ message: 'ADMIN_PASSWORD is not defined in .env' })
   ADMIN_PASSWORD: string;
 
-  @IsString({})
-  @IsDefined({ message: 'SENDGRID_API_KEY is not defined in .env' })
-  SENDGRID_API_KEY: string;
+  // @IsString({})
+  // @IsDefined({ message: 'SENDGRID_API_KEY is not defined in .env' })
+  // SENDGRID_API_KEY: string;
+
+  // @IsString({})
+  // @IsDefined({ message: 'SENDGRID_FROM_EMAIL is not defined in .env' })
+  // SENDGRID_FROM_EMAIL: string;
 
   @IsString({})
-  @IsDefined({ message: 'SENDGRID_FROM_EMAIL is not defined in .env' })
-  SENDGRID_FROM_EMAIL: string;
+  @IsDefined({ message: 'SMTP_HOST is not deifned in .env' })
+  SMTP_HOST: string;
+
+  @Transform(({ value }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return parseInt(value, 10);
+  })
+  @IsDefined({ message: 'SMTP_PORT is not deifned in .env' })
+  SMTP_PORT: number;
+
+  @IsString({})
+  @IsDefined({ message: 'SMTP_USER is not deifned in .env' })
+  SMTP_USER: string;
+
+  @IsString({})
+  @IsDefined({ message: 'SMTP_PASSWORD is not deifned in .env' })
+  SMTP_PASSWORD: string;
+
+  @IsEmail({}, { message: 'SMTP_FROM_EMAIL is not a valid e-mail' })
+  @IsString({})
+  @IsDefined({ message: 'SMTP_HOST is not deifned in .env' })
+  SMTP_FROM_EMAIL: string;
 
   @IsString({})
   @IsDefined({ message: 'TWILIO_ACCOUNT_SID is not defined in .env' })

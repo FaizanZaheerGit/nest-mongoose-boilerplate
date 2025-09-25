@@ -47,12 +47,32 @@ export class AppConfigService {
     return this.configService.get('ADMIN_PASSWORD');
   }
 
-  get SENDGRID_API_KEY(): string | undefined {
-    return this.configService.get('SENDGRID_API_KEY');
+  // get SENDGRID_API_KEY(): string | undefined {
+  //   return this.configService.get('SENDGRID_API_KEY');
+  // }
+
+  // get SENDGRID_FROM_EMAIL(): string | undefined {
+  //   return this.configService.get('SENDGRID_FROM_EMAIL');
+  // }
+
+  get SMTP_HOST(): string | undefined {
+    return this.configService.get('SMTP_HOST');
   }
 
-  get SENDGRID_FROM_EMAIL(): string | undefined {
-    return this.configService.get('SENDGRID_FROM_EMAIL');
+  get SMTP_PORT(): number | undefined {
+    return this.configService.get('SMTP_PORT');
+  }
+
+  get SMTP_USER(): string | undefined {
+    return this.configService.get('SMTP_USER');
+  }
+
+  get SMTP_PASSWORD(): string | undefined {
+    return this.configService.get('SMTP_PASSWORD');
+  }
+
+  get SMTP_FROM_EMAIL(): string | undefined {
+    return this.configService.get('SMTP_FROM_EMAIL');
   }
 
   get TWILIO_ACCOUNT_SID(): string | undefined {
@@ -99,13 +119,29 @@ export class AppConfigService {
     };
   }
 
-  get sendGridConfig(): {
-    SENDGRID_API_KEY: string | undefined;
-    SENDGRID_FROM_EMAIL: string | undefined;
+  // get sendGridConfig(): {
+  //   SENDGRID_API_KEY: string | undefined;
+  //   SENDGRID_FROM_EMAIL: string | undefined;
+  // } {
+  //   return {
+  //     SENDGRID_API_KEY: this.configService.get('SENDGRID_API_KEY'),
+  //     SENDGRID_FROM_EMAIL: this.configService.get('SENDGRID_FROM_EMAIL'),
+  //   };
+  // }
+
+  get mailConfig(): {
+    SMTP_HOST: string | undefined;
+    SMTP_PORT: number | undefined;
+    SMTP_USER: string | undefined;
+    SMTP_PASSWORD: string | undefined;
+    SMTP_FROM_EMAIL: string | undefined;
   } {
     return {
-      SENDGRID_API_KEY: this.configService.get('SENDGRID_API_KEY'),
-      SENDGRID_FROM_EMAIL: this.configService.get('SENDGRID_FROM_EMAIL'),
+      SMTP_HOST: this.configService.get('SMTP_HOST'),
+      SMTP_PORT: this.configService.get('SMTP_PORT'),
+      SMTP_USER: this.configService.get('SMTP_USER'),
+      SMTP_PASSWORD: this.configService.get('SMTP_PASSWORD'),
+      SMTP_FROM_EMAIL: this.configService.get('SMTP_FROM_EMAIL'),
     };
   }
 
