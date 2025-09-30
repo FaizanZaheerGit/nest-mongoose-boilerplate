@@ -28,6 +28,7 @@
       "@filters/*": ["./src/utils/filters/*"],
       "@interceptors/*": ["./src/utils/interceptors/*"],
       "@jwt/*": ["./src/auth/jwt/*"],
+      "@notifications/*": ["./src/notifications/*"],
       "@role/*": ["./src/roles/*"],
       "@seeder/*": ["./src/seeders/*"],
       "@src/*": ["./src/*"],
