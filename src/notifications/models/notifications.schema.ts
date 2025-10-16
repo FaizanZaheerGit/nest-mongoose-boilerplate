@@ -38,6 +38,7 @@ export class Notification extends BaseModel {
   @Prop({ type: Date, default: null })
   dismissedTime: Date;
 
+  @Prop({ type: String, enum: NotificationCategories, default: NotificationCategories.SYSTEM })
   category: NotificationCategories;
 
   @Prop({ type: String, enum: NotificationChannels, default: NotificationChannels.PUSH })
