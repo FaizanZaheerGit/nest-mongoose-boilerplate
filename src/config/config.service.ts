@@ -99,7 +99,7 @@ export class AppConfigService {
     return this.configService.get('REDIS_USERNAME') || 'default';
   }
 
-  get REDIS_PASSWORD(): number | '' {
+  get REDIS_PASSWORD(): string | undefined {
     return this.configService.get('REDIS_PASSWORD') || '';
   }
 

@@ -44,7 +44,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
                 transport: {
                   target: 'pino-pretty',
                   options: {
-                    singeLine: true,
+                    singleLine: true,
                     colorize: true,
                     translateTime: 'SYS:standard',
                     ignore: 'pid,hostname',

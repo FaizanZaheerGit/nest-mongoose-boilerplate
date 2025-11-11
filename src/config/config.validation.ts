@@ -66,27 +66,27 @@ export class ConfigValidation {
   // SENDGRID_FROM_EMAIL: string;
 
   @IsString({})
-  @IsDefined({ message: 'SMTP_HOST is not deifned in .env' })
+  @IsDefined({ message: 'SMTP_HOST is not defined in .env' })
   SMTP_HOST: string;
 
   @Transform(({ value }) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return parseInt(value, 10);
   })
-  @IsDefined({ message: 'SMTP_PORT is not deifned in .env' })
+  @IsDefined({ message: 'SMTP_PORT is not defined in .env' })
   SMTP_PORT: number;
 
   @IsString({})
-  @IsDefined({ message: 'SMTP_USER is not deifned in .env' })
+  @IsDefined({ message: 'SMTP_USER is not defined in .env' })
   SMTP_USER: string;
 
   @IsString({})
-  @IsDefined({ message: 'SMTP_PASSWORD is not deifned in .env' })
+  @IsDefined({ message: 'SMTP_PASSWORD is not defined in .env' })
   SMTP_PASSWORD: string;
 
   @IsEmail({}, { message: 'SMTP_FROM_EMAIL is not a valid e-mail' })
   @IsString({})
-  @IsDefined({ message: 'SMTP_HOST is not deifned in .env' })
+  @IsDefined({ message: 'SMTP_HOST is not defined in .env' })
   SMTP_FROM_EMAIL: string;
 
   @IsString({})
