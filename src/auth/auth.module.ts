@@ -46,6 +46,7 @@ async function DynamicModuleLoader(req, res, next) {
       // eslint-disable-next-line @typescript-eslint/require-await
       useFactory: async (appConfigService: AppConfigService) => ({
         jwtSecret: appConfigService.JWT_SECRET,
+        // TODO: remove any and fix typescript issue for expiresIn Option
         signOptions: { expiresIn: appConfigService.JWT_EXPIRY },
       }),
       inject: [AppConfigService],
