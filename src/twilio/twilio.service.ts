@@ -2,7 +2,7 @@
 import { AppConfigService } from '@config/config.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
-import * as twilio from 'twilio';
+import twilio from 'twilio';
 
 @Injectable()
 export class TwilioService {

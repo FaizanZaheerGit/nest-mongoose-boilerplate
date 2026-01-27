@@ -99,7 +99,7 @@ export class UsersController {
     PermissionEnums.DELETE_USERS,
   )
   @UseGuards(RbacGuard)
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.usersService.readUserById(id);
   }
@@ -115,7 +115,7 @@ export class UsersController {
   })
   @AllowedPermissions(PermissionEnums.EDIT_USERS)
   @UseGuards(RbacGuard)
-  @Patch(':id')
+  @Patch('/:id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateUser(id, updateUserDto);
   }
@@ -124,7 +124,7 @@ export class UsersController {
   @ApiBearerAuth()
   @AllowedPermissions(PermissionEnums.EDIT_USERS, PermissionEnums.DELETE_USERS)
   @UseGuards(RbacGuard)
-  @Delete(':id')
+  @Delete('/:id')
   @ApiParam({
     name: 'id',
     description: 'Id of user to delete',

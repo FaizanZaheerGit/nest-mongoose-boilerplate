@@ -72,7 +72,6 @@ export class UsersService {
 
   async readCursorBasedUsers(readUsersDto: ReadUsersDto) {
     try {
-      this.logger.info(`Test Log`);
       const { cursor, limit, ...filterQuery } = readUsersDto;
 
       // TODO: remove this and handle DTO and Validation Pipe properly to avoid undefined values

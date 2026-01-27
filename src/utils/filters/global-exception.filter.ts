@@ -12,6 +12,8 @@ export class GlobalExceptionHandler implements ExceptionFilter {
 
     const status =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+
+    // TODO: Look into sentry (or other tools) for capturing and monitoring exceptions and errors
     response.status(status).json({
       statusCode: status,
       data: {},
