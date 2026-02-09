@@ -6,7 +6,7 @@ import { AuthModule } from '@auth/auth.module';
 import { AppConfigModule } from '@config/config.module';
 import { DbProviderModule } from '@database/provider.module';
 import { MailModule } from '@src/mail/mailer.module';
-import { TwilioModule } from '@src/twilio/twilio.module';
+// import { TwilioModule } from '@src/twilio/twilio.module';
 import { RolesModule } from '@role/roles.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { LoggerModule } from 'nestjs-pino';
@@ -15,11 +15,13 @@ import { BullModule } from '@nestjs/bullmq';
 import { HealthModule } from '@health/health.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { CacheRedisModule } from '@cacheRedisModule/cache.module';
 
 @Module({
   imports: [
     EventEmitterModule.forRoot({ global: true }),
     AppConfigModule,
+    CacheRedisModule,
     LoggerModule.forRootAsync({
       inject: [AppConfigService],
       useFactory: (appConfigService: AppConfigService) => {
@@ -75,7 +77,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
       throttlers: [{ limit: 200, ttl: 300 }],
       errorMessage: `Too Many Requests`,
     }),
-    TwilioModule,
+    // TwilioModule,
     UsersModule,
   ],
   controllers: [AppController],

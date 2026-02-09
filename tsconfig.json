@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@auth/*": ["./src/auth/*"],
+      "@cacheRedisModule/*": ["./src/cache/*"],
       "@config/*": ["./src/config/*"],
       "@database/*": ["./src/database/*"],
       "@decorators/*": ["./src/utils/decorators/*"],

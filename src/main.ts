@@ -8,9 +8,7 @@ import { AppConfigService } from '@config/config.service';
 import { Logger } from 'nestjs-pino';
 
 // TODO: Add Optimnized Docker Images using DockerFile and docker-compose
-// TODO: Add Display Picutre in users model and File Uploading to Cloud
 // TODO: Add Notifications model and Sockets for Real-time notifications push
-// TODO: Implement Redis Caching mecahnism (if needed)
 // TODO: Try Lazy Loading Modules to see how it affects performance and start up time
 // TODO: Look into sentry (or other tools) for capturing and monitoring exceptions and errors
 

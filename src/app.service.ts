@@ -1,13 +1,15 @@
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
-import { Injectable, OnApplicationShutdown } from '@nestjs/common';
+import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import mongoose from 'mongoose';
+import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 
 @Injectable()
 export class AppService implements OnApplicationShutdown {
   constructor(
     @InjectQueue('auth-queue') private readonly authQueue: Queue,
+    @Inject(CACHE_MANAGER) private readonly cache: Cache,
     private readonly logger: PinoLogger,
   ) {}
 
@@ -27,6 +29,9 @@ export class AppService implements OnApplicationShutdown {
     this.logger.warn('Closing Mongoose Connection...');
     await mongoose.connection.close();
     this.logger.info(`Mongoose Connection Closed Successfully...`);
+    this.logger.warn(`Closing Redis Cache Connection`);
+    await this.cache.disconnect();
+    this.logger.info(`Redis Cache Connection Closed Successufully...`);
     this.logger.warn(`Closing ${this.authQueue.name} Bull MQ...`);
     await this.authQueue.close();
     this.logger.info(`${this.authQueue.name} Bull MQ Closed Successfully...`);

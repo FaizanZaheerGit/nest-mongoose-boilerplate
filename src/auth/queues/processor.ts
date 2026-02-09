@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Inject } from '@nestjs/common';
 import { MailService } from '@src/mail/mailer.service';
-import { TwilioService } from '@src/twilio/twilio.service';
+// import { TwilioService } from '@src/twilio/twilio.service';
 import { Job } from 'bullmq';
 import { PinoLogger } from 'nestjs-pino';
 
@@ -9,7 +9,7 @@ import { PinoLogger } from 'nestjs-pino';
 export class AuthProcessor extends WorkerHost {
   constructor(
     @Inject(MailService) private readonly mailService: MailService,
-    @Inject(TwilioService) private readonly twilioService: TwilioService,
+    // @Inject(TwilioService) private readonly twilioService: TwilioService,
     private readonly logger: PinoLogger,
   ) {
     super();
@@ -45,7 +45,7 @@ export class AuthProcessor extends WorkerHost {
         `SEND SMS Processor  =>  ID:  ${job?.id},  DATA:  ${JSON.stringify(job?.data)}`,
       );
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      await this.twilioService.sendBulkSms(job?.data);
+      // await this.twilioService.sendBulkSms(job?.data);
     } catch (error) {
       this.logger.error(`Error in send sms processor:  ${error}`);
     }
