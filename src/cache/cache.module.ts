@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CacheRedisService } from './cache.service';
-import { CacheRedisController } from './cache.controller';
+// import { CacheRedisController } from './cache.controller';
 import { CacheModule } from '@nestjs/cache-manager';
 import { AppConfigService } from '@config/config.service';
 import KeyvRedis from '@keyv/redis';
@@ -22,7 +22,7 @@ import KeyvRedis from '@keyv/redis';
       isGlobal: true,
     }),
   ],
-  controllers: [CacheRedisController],
+  // controllers: [CacheRedisController],
   providers: [CacheRedisService],
 })
 export class CacheRedisModule {}

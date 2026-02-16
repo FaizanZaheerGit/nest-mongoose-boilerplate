@@ -22,7 +22,7 @@ export class CacheRedisService {
           this.logger.error(`Error in Setting redis Data By Key:  ${error}`);
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-          throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+          // throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -32,9 +32,10 @@ export class CacheRedisService {
           return cacheData ?? null;
         } catch (error) {
           this.logger.error(`Error in Getting redis Data By Key:  ${error}`);
+          return null;
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-          throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+          // throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -45,7 +46,7 @@ export class CacheRedisService {
           this.logger.error(`Error in Deleting redis Data By Key:  ${error}`);
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-          throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+          // throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }
 }
