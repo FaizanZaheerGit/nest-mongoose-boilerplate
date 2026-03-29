@@ -9,15 +9,13 @@ import KeyvRedis from '@keyv/redis';
 @Module({
   imports: [
     CacheModule.registerAsync({
-      useFactory: async(appConfigService: AppConfigService) => {
+      useFactory: (appConfigService: AppConfigService) => {
         return {
           stores: [
-            new KeyvRedis(
-              `redis://${appConfigService.REDIS_HOST}:${appConfigService.REDIS_PORT}`
-            ),
+            new KeyvRedis(`redis://${appConfigService.REDIS_HOST}:${appConfigService.REDIS_PORT}`),
           ],
-          ttl: 60_000 // NOTE: Test TTL and change accordingly
-        }
+          ttl: 60_000, // NOTE: Test TTL and change accordingly
+        };
       },
       inject: [AppConfigService],
       isGlobal: true,

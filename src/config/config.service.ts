@@ -27,8 +27,8 @@ export class AppConfigService {
     return this.configService.get('JWT_SECRET');
   }
 
-  // TODO: remove any and fix typescript issue for expiresIn Option 
-  get JWT_EXPIRY(): string | undefined | any {
+  // TODO: remove any and fix typescript issue for expiresIn Option
+  get JWT_EXPIRY(): string | undefined {
     return this.configService.get('JWT_EXPIRY');
   }
 

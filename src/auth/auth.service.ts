@@ -67,7 +67,7 @@ export class AuthService {
       const accessToken = this.jwtService.generateToken({ email });
       delete existingUser?.password;
       return { entity: existingUser, token: accessToken };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in Login Service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -77,7 +77,7 @@ export class AuthService {
   logout() {
     try {
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in Logout serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -106,7 +106,7 @@ export class AuthService {
       });
 
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in Forgot Password serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -130,7 +130,7 @@ export class AuthService {
         this.resetTokenRepository.updateTokensExpiryByUser(String(existingUser['_id']), true),
       ]);
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in Reset Password serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -168,7 +168,7 @@ export class AuthService {
       }
 
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in Send OTP serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -202,7 +202,7 @@ export class AuthService {
       });
 
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in Verify OTP serivce:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

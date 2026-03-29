@@ -39,12 +39,12 @@ export class AuthProcessor extends WorkerHost {
     }
   }
 
-  async sendSms(job: Job) {
+  sendSms(job: Job) {
     try {
       this.logger.info(
         `SEND SMS Processor  =>  ID:  ${job?.id},  DATA:  ${JSON.stringify(job?.data)}`,
       );
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
       // await this.twilioService.sendBulkSms(job?.data);
     } catch (error) {
       this.logger.error(`Error in send sms processor:  ${error}`);

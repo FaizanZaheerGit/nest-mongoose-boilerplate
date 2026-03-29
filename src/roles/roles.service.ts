@@ -21,7 +21,7 @@ export class RolesService {
   async getRoleByIds(ids: string[]) {
     try {
       return await this.roleRepository.getRoleByIds(ids);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in get role by ids service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -37,7 +37,7 @@ export class RolesService {
       }
       const newRole = await this.roleRepository.create(createRoleDto);
       return { entity: newRole };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in create role service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -48,7 +48,7 @@ export class RolesService {
     try {
       const roles = await this.roleRepository.getRoles(readRoleDto);
       return { entities: roles };
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Error in read roles service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -75,7 +75,7 @@ export class RolesService {
       }
       const nextCursor = hasNext ? roles[roles.length - 1]._id : null;
       return { entities: roles, hasNext, nextCursor };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in read cursor based roles service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -103,7 +103,7 @@ export class RolesService {
         entities: roles,
         meta: { currentPage: page, hasNext, pageSize: limit, totalCount, totalPages },
       };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in read paginated roles service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -117,7 +117,7 @@ export class RolesService {
         throw new HttpException('Role not found', HttpStatus.BAD_REQUEST);
       }
       return { entity: existingRole };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in read role by id service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -142,7 +142,7 @@ export class RolesService {
       }
       await this.roleRepository.updateRoleById(id, updateRoleDto);
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in update role service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -161,7 +161,7 @@ export class RolesService {
       }
       await this.roleRepository.updateRoleById(id, { status: StatusEnums.DELETED });
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in delete role service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

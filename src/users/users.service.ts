@@ -23,7 +23,7 @@ export class UsersService {
   async getUserByEmail(email: string) {
     try {
       return await this.userRepository.getUserByEmail(email);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in User Service get User by Email:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -33,7 +33,7 @@ export class UsersService {
   async getUserById(id: string) {
     try {
       return await this.userRepository.getUserById(id);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in User Service get User by Id:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -63,7 +63,7 @@ export class UsersService {
         status: StatusEnums.PENDING,
       });
       return { entity: newUser };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in create user service:  =>  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -92,7 +92,7 @@ export class UsersService {
       }
       const nextCursor = hasNext ? users[users.length - 1]._id : null;
       return { entities: users, hasNext, nextCursor };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in get cursor based users service:  =>  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -120,7 +120,7 @@ export class UsersService {
         entities: users,
         meta: { currentPage: page, hasNext, pageSize: limit, totalCount, totalPages },
       };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in read paginated users service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -130,7 +130,7 @@ export class UsersService {
   readCurrentUserDetails(currentUser: User) {
     try {
       return { user: currentUser };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in read current user details:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -144,7 +144,7 @@ export class UsersService {
         throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
       }
       return { entity: existingUser };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in read user by id service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -159,7 +159,7 @@ export class UsersService {
       }
       await this.userRepository.updateUserById(id, updateUserDto);
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in update user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -174,7 +174,7 @@ export class UsersService {
       }
       await this.userRepository.updateUserById(id, { status });
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in update user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -188,7 +188,7 @@ export class UsersService {
         throw new HttpException(`User not found!`, HttpStatus.BAD_REQUEST);
       }
       return await this.userRepository.updateUserById(id, { password: newPassword });
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in update user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -203,7 +203,7 @@ export class UsersService {
       }
       await this.userRepository.updateUserById(id, { status: StatusEnums.DELETED });
       return {};
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in delete user service:  ${error}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
