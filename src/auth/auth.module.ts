@@ -47,7 +47,7 @@ async function DynamicModuleLoader(req, res, next) {
       useFactory: async (appConfigService: AppConfigService) => ({
         jwtSecret: appConfigService.JWT_SECRET,
         // TODO: remove any and fix typescript issue for expiresIn Option
-        signOptions: { expiresIn: appConfigService.JWT_EXPIRY },
+        signOptions: { expiresIn: appConfigService.JWT_EXPIRY as number },
       }),
       inject: [AppConfigService],
     }),

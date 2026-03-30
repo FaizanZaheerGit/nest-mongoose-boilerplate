@@ -28,7 +28,8 @@ export class AppConfigService {
   }
 
   // TODO: remove any and fix typescript issue for expiresIn Option
-  get JWT_EXPIRY(): string | undefined {
+  get JWT_EXPIRY(): any {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.configService.get('JWT_EXPIRY');
   }
 
